@@ -1,6 +1,58 @@
 <template>
   <div>
+    
+    <header>
+      <div>
+        <b-navbar toggleable="sm" type="light" variant="light"  class="px-md-5 bg-white">
+          <b-navbar-brand href="/">
+            <i class="fas fa-paint-brush awesome-green"></i>俳句メーカー
+          </b-navbar-brand>
+
+          <b-navbar-toggle target="nav_collapse" />
+
+          <b-collapse is-nav id="nav_collapse">
+            <b-navbar-nav class=" text-right">
+              <b-nav-item href="/new" class="mx-md-1">
+                <i class="fas fa-star awesome-blue"></i> 新着
+              </b-nav-item>
+              <b-nav-item href="#" class="mx-md-1">
+                <i class="fas fa-trophy awesome-orange"></i> コンテスト(準備中)
+              </b-nav-item>
+              <b-nav-item href="/ranking" class="mx-md-1">
+                <i class="fas fa-crown awesome-darkgoldenrod"></i> ランキング
+              </b-nav-item>
+              <b-nav-item href="/create" class="mx-md-1">
+                <i class="fas fa-pencil-alt awesome-green"></i> 俳句をつくる
+              </b-nav-item>
+            </b-navbar-nav>
+          </b-collapse>
+        </b-navbar>
+      </div>
+    </header>
     <nuxt/>
+    <footer class="text-center mt-5 mt-lg-4 px-5">
+      <div>
+        <ul class="footer">
+          <li><a href="/">トップページ</a> ｜</li>
+          <li><a href="/new">新着</a> ｜</li>
+          <li><a href="/ranking">ランキング</a> ｜</li>
+          <li><a href="/create">俳句をつくる</a> ｜</li>
+          <li><a href="/thanks">Thanks</a></li>
+        </ul>
+      </div>
+      <div>
+        開発・運営
+        <img 
+          src="~/assets/img/mitsudama.png" 
+          width="30"
+          height="30"
+          class="pb-1 border-4"
+          alt="mitsudama">
+        <a 
+          href="https://twitter.com/mitudama" 
+          target="_blank" rel="noopener">@mitudama</a> Copyright ©2019 All rights reserved.
+      </div>
+    </footer>
   </div>
 </template>
 
@@ -16,38 +68,54 @@ html {
   box-sizing: border-box;
 }
 
+body {
+  /* background-color: rgb(46, 46, 46) */
+}
+
 *, *:before, *:after {
   box-sizing: border-box;
   margin: 0;
 }
 
-.button--green {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #3b8070;
-  color: #3b8070;
-  text-decoration: none;
-  padding: 10px 30px;
+.container {
+  max-width: 800px;
 }
 
-.button--green:hover {
-  color: #fff;
-  background-color: #3b8070;
+.btn-haiku-create {
+  color: white;
+  background-color: green
+}
+.btn-tw {
+  color: white;
+  background-color: #00aced;
+}
+.animationBtn {
+  animation: animScale 4s infinite ease-out;
+  transform-origin: 50% 50%;
+  animation-play-state:running;
+}
+@keyframes animScale {
+  0% { transform: scale(0.8, 0.8); }
+  10% { transform: scale(1.1, 1.1); }
+  20% { transform: scale(1, 1); }
+  30% { transform: scale(1.1, 1.1); }
+  40% { transform: scale(1, 1); }
+}
+ul.footer li {
+display: inline;
+text-align: center;
 }
 
-.button--grey {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #35495e;
-  color: #35495e;
-  text-decoration: none;
-  padding: 10px 30px;
-  margin-left: 15px;
+.bg-white {
+  background-color: white;
 }
 
-.button--grey:hover {
-  color: #fff;
-  background-color: #35495e;
-}
+.awesome-green {color: green}
+.awesome-red {color: red}
+.awesome-blue {color: deepskyblue}
+.awesome-yellow {color:gold}
+.awesome-orange {color:orange}
+.awesome-darkgoldenrod {color:darkgoldenrod}
+.awesome-black {color: black}
 </style>
 

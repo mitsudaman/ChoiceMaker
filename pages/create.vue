@@ -6,16 +6,27 @@
     </b-row>
     <div class="row mb-2">
       <div class="col-md-12">
-        <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-          <div class="col p-4 d-flex flex-column position-static">
+        <div class="row no-gutters  rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+          <div class="col d-flex flex-column position-static">
             <div>
               <svg ref="svgArea" viewBox="0 0 200 100">
-                <rect x="0" y="0" width="200" height="100" fill="#fff" stroke="#12b886" stroke-width="15"></rect>
+                <rect x="2.5" y="2.5" width="90" height="95" fill="#fff" stroke="#12b886" stroke-width="5"></rect>
+                <rect x="107.5" y="2.5" width="90" height="95" fill="#fff" stroke="#cccccc" stroke-width="5"></rect>
+                <!-- <rect x="0" y="0" width="100" height="100" fill="#fff" stroke="#12b886" stroke-width="15"></rect> -->
                 <text 
-                x="50%" 
+                x="25%" 
                 y="50%" 
+                writing-mode="tb"
+                glyph-orientation-vertical="0"
                 font-size="8px"
-                text-anchor="middle">aaaaaaaaa</text>
+                text-anchor="middle">{{option1}}</text>
+                <text 
+                x="75%" 
+                y="50%" 
+                writing-mode="tb"
+                glyph-orientation-vertical="0"
+                font-size="8px"
+                text-anchor="middle">{{option2}}</text>
               </svg>
             </div>
           </div>
