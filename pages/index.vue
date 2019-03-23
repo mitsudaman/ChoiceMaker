@@ -1,91 +1,48 @@
 <template>
   <b-container class="px-md-5 mt-5">
-    <b-row align-h="end">
+    <b-row align-h="end" class="mb-4">
       <b-col cols="4 text-right">
-        <i class="fas fa-thumbs-up awesome-yellow"></i> 0いいね</b-col>
+        <i class="fas fa-thumbs-up awesome-green"></i> 0いいね</b-col>
     </b-row>
-    <div class="row mb-2">
-      <div class="col-md-12">
-        <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-          <div class="col p-4 d-flex flex-column position-static">
-            <div>
-              <svg ref="svgArea" viewBox="0 0 200 100">
-                <rect x="0" y="0" width="200" height="100" fill="#fff" stroke="#12b886" stroke-width="15"></rect>
-                <text 
-                x="50%" 
-                y="50%" 
-                font-size="8px"
-                text-anchor="middle">aaaaaaaaa</text>
-              </svg>
-            </div>
-          </div>
-        </div>
+    <div class="row board rounded mb-4 no-gutters">
+      <div class="col-2 col-md-1">
+        <p class="h2 p-1 pl-3 mt-2">
+          <i class="fas fa-hand-point-left awesome-white animationBtn"></i>
+        </p>
       </div>
-      <!-- <div class="col-md-6">
-        <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-          <div class="col p-4 d-flex flex-column position-static">
-            <strong class="d-inline-block mb-2 text-success">Design</strong>
-            <h3 class="mb-0">Post title</h3>
-            <div class="mb-1 text-muted">Nov 11</div>
-            <p class="mb-auto">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
-            <a href="#" class="stretched-link">Continue reading</a>
-          </div>
-        </div>
-      </div> -->
-    </div>
-    <div class="mt-4">
-      <div class="row">
-        <div class="col-md-6">
-          <div class="form-group">
-            <label class="font-weight-bold">回答1</label>
-            <input  
-              v-model="option1"
-              class="form-control">
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="form-group">
-            <label class="font-weight-bold">回答2</label>
-            <input  
-              v-model="option2"
-              class="form-control">
-          </div>
-        </div>
+      <div class="col-8 col-md-10">
+        <p class="h2 pt-1 mt-2 text-center font-weight-bold">
+          どっちがいい？
+          <!-- 目の前に列車が走っている。線路の先にはネコがいます。助けますか？ -->
+        </p>
       </div>
-      <!-- <div class="row">
-        <div class="col-md-8">
-          <div class="form-group">
-            <label class="font-weight-bold">タグ</label>
-            <span> ※3つまで</span>
-            <input-tag
-            v-model="tags"
-            :limit=3></input-tag> 
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="form-group">
-            <label class="font-weight-bold">名前</label>
-            <input  
-              v-model="name"
-              class="form-control">
-          </div>
-        </div>
-      </div> -->
+      <div class="col-2 col-md-1 text-right">
+        <p class="h2 p-1 mr-3 mt-2">
+          <i class="fas fa-hand-point-right awesome-white animationBtn"></i>
+        </p>
+      </div>
     </div>
-    <div class="text-right mt-3">
-      <b-button 
-        :disabled="createdFlg"
-        @click="create()" 
-        class="btn-haiku-create">
-        <i 
-        v-if="!createLoadFlg"
-        class="fas fa-pencil-alt"></i> 
-        <span
-          v-if="createLoadFlg"
-          class="spinner-border spinner-border-sm" 
-          role="status" 
-          aria-hidden="true"></span>俳句つくる</b-button>
+    <div class="row mb-2 no-gutters justify-content-md-center">
+      <div 
+        v-bind:class="[{ choiced: choiced && isAChoiced },{ noChoiced: choiced && !isAChoiced }]"
+        @click="choiceOption(1)"
+        class="col-md-5 mt-md-0 border-double rounded options">
+        <div class="h3 py-3 optionA_title pb-2 font-weight-bold text-center text-white ">A</div>
+        <div 
+        class="h4 p-3 my-3 text-center font-weight-bold">毎月20万円もらえる（一生）ああああああああああああああああああああああああ</div>
+      </div>
+      <div 
+      v-bind:class= "{ noChoiced: choiced }"
+      class="col-md-1"></div>
+      <div 
+        v-bind:class="[{ choiced: choiced && isBChoiced },{ noChoiced: choiced && !isBChoiced }]"
+        @click="choiceOption(2)"
+        class="col-md-5 mt-3 mt-md-0 border-double rounded options">
+        <div class="h3 py-3 optionB_title pb-2 font-weight-bold text-center text-white ">B</div>
+        <div class="h4 p-3 my-3 text-center font-weight-bold">その場で1億円もらえる</div>
+      </div>
     </div>
+    
   </b-container>
 </template>
 
@@ -111,11 +68,26 @@ export default {
     return {
       option1: '',
       option2: '',
+      choiced: false,
+      isAChoiced: false,
+      isBChoiced: false,
       createLoadFlg: false,
       createdFlg: false
     };
   },
   methods: {
+    choiceOption(option){
+      console.log('aaaaaaaaaa');
+      this.choiced = true;
+      if(option == 1){
+        this.isAChoiced = true;
+        this.isBChoiced = false;
+      }
+      else if(option == 2){
+        this.isAChoiced = false;
+        this.isBChoiced = true;
+      }
+    },
     create() {
       var storageRef = firebase.storage().ref();
       var createRef = storageRef.child('aaa.jpg');
@@ -162,6 +134,52 @@ export default {
 </script>
 
 <style>
+.board {
+    background-color:#ffd31a;
+    /* background-color:#49a1eb; */
+    border:solid 3px grey;
+}
+.border-double{
+  border:double 10px dimgray;
+}
+.border-bottom{
+  /* border:solid 1px #000; */
+}
+.options {
+  background-color: white;
+}
+.optionA_title{
+  background-color: grey;
+  border-bottom:solid 2px dimgray;
+}
+.optionB_title{
+  background-color: grey;
+  border-bottom:solid 2px dimgray;
+}
 
+.choiced {
+  animation: animScale 4s infinite ease-out;
+  transform-origin: 50% 50%;
+  animation-play-state:running;
+}
+.noChoiced {
+  display: none;
+}
+.animationBtn {
+  animation: animScale 4s infinite ease-out;
+  transform-origin: 50% 50%;
+  animation-play-state:running;
+}
+@keyframes animScale {
+  0% { transform: scale(0.8, 0.8); }
+  10% { transform: scale(1.1, 1.1); }
+  20% { transform: scale(1, 1); }
+  30% { transform: scale(1.1, 1.1); }
+  40% { transform: scale(1, 1); }
+  50% { transform: scale(1.1, 1.1); }
+  60% { transform: scale(1, 1); }
+  70% { transform: scale(1.1, 1.1); }
+  80% { transform: scale(1, 1); }
+}
 </style>
 

@@ -5,7 +5,7 @@
       <div>
         <b-navbar toggleable="sm" type="light" variant="light"  class="px-md-5 bg-white">
           <b-navbar-brand href="/">
-            <i class="fas fa-paint-brush awesome-green"></i>俳句メーカー
+            <i class="fas fa-hand-point-up awesome-darkgoldenrod"></i>チョイス！<i class="fas fa-hand-point-up awesome-darkgoldenrod"></i>
           </b-navbar-brand>
 
           <b-navbar-toggle target="nav_collapse" />
@@ -22,7 +22,7 @@
                 <i class="fas fa-crown awesome-darkgoldenrod"></i> ランキング
               </b-nav-item>
               <b-nav-item href="/create" class="mx-md-1">
-                <i class="fas fa-pencil-alt awesome-green"></i> 俳句をつくる
+                <i class="fas fa-pencil-alt awesome-green"></i> 選択をつくる
               </b-nav-item>
             </b-navbar-nav>
           </b-collapse>
@@ -70,6 +70,7 @@ html {
 
 body {
   /* background-color: rgb(46, 46, 46) */
+  background-color:whitesmoke;
 }
 
 *, *:before, *:after {
@@ -117,5 +118,6 @@ text-align: center;
 .awesome-orange {color:orange}
 .awesome-darkgoldenrod {color:darkgoldenrod}
 .awesome-black {color: black}
+.awesome-white {color: white}
 </style>
 
