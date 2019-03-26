@@ -49,6 +49,7 @@ module.exports = {
   css: [
     '@fortawesome/fontawesome-free/css/all.css',
   ],
+  plugins: [{ src: '~/plugins/vuehtml2canvas', ssr: false }],
   modules: [
     'bootstrap-vue/nuxt',
     // '@nuxtjs/pwa',

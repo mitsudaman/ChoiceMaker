@@ -18,7 +18,8 @@
     "canvg": "^1.5.3",
     "firebase": "^5.9.0",
     "nuxt": "^2.0.0",
-    "vue": "^2.6.9"
+    "vue": "^2.6.9",
+    "vue-html2canvas": "^0.0.4"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^5.7.2",

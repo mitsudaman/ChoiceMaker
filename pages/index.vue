@@ -42,6 +42,13 @@
         <div class="h4 p-3 my-3 text-center font-weight-bold">その場で1億円もらえる</div>
       </div>
     </div>
+
+    <div 
+    v-if="choiced"
+    class="result"
+    >
+    {{ question }}
+    </div>
     
   </b-container>
 </template>
@@ -61,6 +68,7 @@ var config = {
 if (!firebase.apps.length) {
     firebase.initializeApp(config);
 }
+var db = firebase.firestore();
 export default {
   components: {
   },
@@ -72,12 +80,12 @@ export default {
       isAChoiced: false,
       isBChoiced: false,
       createLoadFlg: false,
-      createdFlg: false
+      createdFlg: false,
+      question: {},
     };
   },
   methods: {
     choiceOption(option){
-      console.log('aaaaaaaaaa');
       this.choiced = true;
       if(option == 1){
         this.isAChoiced = true;
@@ -87,6 +95,31 @@ export default {
         this.isAChoiced = false;
         this.isBChoiced = true;
       }
+
+
+      // 
+      // var docRef = db.collection("posts").doc(this.$route.query.d);
+
+      // // ドキュメント取得
+      // docRef.get().then(doc => {
+      //     if (doc.exists) {
+      //       this.post = doc.data();
+      //       this.tags = this.post.tags
+      //       // ドキュメント更新
+      //       docRef.update({
+      //           "read_count": this.post.read_count+1,
+      //       })
+      //     } else {
+      //         // doc.data() will be undefined in this case
+      //         console.log("No such document!");
+      //     }
+      // }).catch(function(error) {
+      //     console.log("Error getting document:", error);
+      // });
+
+
+
+
     },
     create() {
       var storageRef = firebase.storage().ref();
