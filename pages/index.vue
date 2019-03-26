@@ -1,53 +1,89 @@
 <template>
   <b-container class="px-md-5 mt-5">
-    <b-row align-h="end" class="mb-4">
-      <b-col cols="4 text-right">
-        <i class="fas fa-thumbs-up awesome-green"></i> 0いいね</b-col>
-    </b-row>
-    <div class="row board rounded mb-4 no-gutters">
-      <div class="col-2 col-md-1">
-        <p class="h2 p-1 pl-3 mt-2">
-          <i class="fas fa-hand-point-left awesome-white animationBtn"></i>
-        </p>
-      </div>
-      <div class="col-8 col-md-10">
-        <p class="h2 pt-1 mt-2 text-center font-weight-bold">
-          どっちがいい？
-          <!-- 目の前に列車が走っている。線路の先にはネコがいます。助けますか？ -->
-        </p>
-      </div>
-      <div class="col-2 col-md-1 text-right">
-        <p class="h2 p-1 mr-3 mt-2">
-          <i class="fas fa-hand-point-right awesome-white animationBtn"></i>
-        </p>
-      </div>
-    </div>
-    <div class="row mb-2 no-gutters justify-content-md-center">
-      <div 
-        v-bind:class="[{ choiced: choiced && isAChoiced },{ noChoiced: choiced && !isAChoiced }]"
-        @click="choiceOption(1)"
-        class="col-md-5 mt-md-0 border-double rounded options">
-        <div class="h3 py-3 optionA_title pb-2 font-weight-bold text-center text-white ">A</div>
-        <div 
-        class="h4 p-3 my-3 text-center font-weight-bold">毎月20万円もらえる（一生）ああああああああああああああああああああああああ</div>
-      </div>
-      <div 
-      v-bind:class= "{ noChoiced: choiced }"
-      class="col-md-1"></div>
-      <div 
-        v-bind:class="[{ choiced: choiced && isBChoiced },{ noChoiced: choiced && !isBChoiced }]"
-        @click="choiceOption(2)"
-        class="col-md-5 mt-3 mt-md-0 border-double rounded options">
-        <div class="h3 py-3 optionB_title pb-2 font-weight-bold text-center text-white ">B</div>
-        <div class="h4 p-3 my-3 text-center font-weight-bold">その場で1億円もらえる</div>
-      </div>
-    </div>
+    <h1 class="text-center mt-3 h2">
+        <i class="fas fa-paint-brush awesome-green"></i> 究極の選択メーカー
+    </h1>
+    <!-- <div class="text-center">
+      <img src="~/assets/img/top_image.png" class="top"/>
+    </div> -->
 
+    <h2 class="text-center mt-4 h3">
+        <i class="fas fa-newspaper awesome-blue"></i>お知らせ
+    </h2>
+    <div class="card mt-3">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-12 h5 text-center">
+             <a href="/create?t=ブラック企業川柳">ブラック企業での悲しい体験や辛い経験を大募集！！！ </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <h2 class="text-center mt-5 h3">
+        <i class="fas fa-crown awesome-darkgoldenrod"></i>ランキング
+    </h2>
     <div 
-    v-if="choiced"
-    class="result"
-    >
-    {{ question }}
+      v-for="row in questions"
+      v-bind:key="row.id"
+      class="card mt-3">
+      <div class="card-body haiku-card">
+        <div class="row no-gutters">
+          <div class="col-9 col-md-10 pl-md-4 font-weight-bold h3">
+            {{row.data.haiku1}}</div>
+          <div class="col-3  no-gutters col-md-2 text-right">
+            <a :href="'https://twitter.com/share?text=俳句メーカー。あなたの日常を俳句にして周りとシェアしましょう。&amp;hashtags=俳句メーカー,' + (row.data.tags).join(',') + '&amp;url=https://www.haiku-maker.site/m/' + row.documentId" target="_blank" rel="noopener" role="button" class="btn btn-block btn-tw p-1 p-md-2"><i class="fab fa-twitter"></i>シェア</a>
+          </div>
+        </div>
+        <div class="row no-gutters">
+          <div class="col-md-2">
+          </div>
+          <div class="col-md-10 font-weight-bold h3">
+            {{row.data.haiku2}}
+          </div>
+        </div>
+        <div class="row no-gutters">
+          <div class="col-0 col-md-4">
+          </div>
+          <div class="col-9 col-md-6 font-weight-bold h3">
+            {{row.data.haiku3}}
+          </div>
+          <div class="col-3 col-md-2 pr-2 pt-3 text-right">
+             <a :href="'/read/?d=' + row.documentId ">>>詳細</a>
+          </div>
+        </div>
+        <div 
+        v-if="row.data.tags"
+        class="row no-gutters">
+          <div class="col-9 pl-md-4">
+            <a 
+            v-if="row.data.tags[0]"
+            :href="'/ranking/?t=' + row.data.tags[0]">#{{row.data.tags[0]}}</a>
+            <a 
+            v-if="row.data.tags[1]"
+            :href="'/ranking/?t=' + row.data.tags[1]">#{{row.data.tags[1]}}</a>
+            <a 
+            v-if="row.data.tags[2]"
+            :href="'/ranking/?t=' + row.data.tags[2]">#{{row.data.tags[2]}}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <h2 class="text-center mt-4 h3">
+        <i class="fas fa-users awesome-yellow"></i>人気のタグ一覧
+    </h2>
+    <div class="card p-3 mt-3">
+      <div class="tag-container">
+        <a 
+          class="tag-content"
+          :href="'/ranking/?t=IT川柳'">
+          IT川柳
+        </a>
+        <a class="tag-content"
+          :href="'/ranking/?t=ブラック企業川柳'">
+          ブラック企業川柳
+        </a>
+      </div>
     </div>
     
   </b-container>
@@ -81,85 +117,42 @@ export default {
       isBChoiced: false,
       createLoadFlg: false,
       createdFlg: false,
-      question: {},
+      questions: [],
+      lastVisible: null
     };
   },
+  created() {
+      return this.getRankQestions(true);
+  },
   methods: {
-    choiceOption(option){
-      this.choiced = true;
-      if(option == 1){
-        this.isAChoiced = true;
-        this.isBChoiced = false;
-      }
-      else if(option == 2){
-        this.isAChoiced = false;
-        this.isBChoiced = true;
-      }
-
-
-      // 
-      // var docRef = db.collection("posts").doc(this.$route.query.d);
-
-      // // ドキュメント取得
-      // docRef.get().then(doc => {
-      //     if (doc.exists) {
-      //       this.post = doc.data();
-      //       this.tags = this.post.tags
-      //       // ドキュメント更新
-      //       docRef.update({
-      //           "read_count": this.post.read_count+1,
-      //       })
-      //     } else {
-      //         // doc.data() will be undefined in this case
-      //         console.log("No such document!");
-      //     }
-      // }).catch(function(error) {
-      //     console.log("Error getting document:", error);
-      // });
-
-
-
-
+    pageNext() {
+      this.getRankQestions(false)
     },
-    create() {
-      var storageRef = firebase.storage().ref();
-      var createRef = storageRef.child('aaa.jpg');
-      var canvas = document.createElement('canvas')
-      var svg = this.$refs.svgArea
-      this.createLoadFlg = true;
+    getRankQestions(firstFlg) {
+      var dbCollection = db.collection("questions")
+      // tag 有りの場合
+      if(this.$route.query.t != null){
+        dbCollection = dbCollection.where("tags","array-contains",this.$route.query.t)
+      }
 
-      canvas.width = svg.width.baseVal.value;
-      canvas.height = svg.height.baseVal.value;
-      
-      const data = new XMLSerializer().serializeToString(this.$refs.svgArea);
-      canvg(canvas, data)
-      let image = canvas.toDataURL('image/jpeg').split(',')[1]
-      createRef.putString(image, 'base64').then((snapshot) =>{
-        console.log('Uploaded a blob or file!');
-        // var date = new Date();
-        
-        // db.collection("posts").add({
-        //   haiku1: this.haiku1,
-        //   haiku2: this.haiku2,
-        //   haiku3: this.haiku3,
-        //   name: this.name,
-        //   ogp_full_path: this.uuid,
-        //   read_count: 0,
-        //   tags: this.tags,
-        //   type: 1,
-        //   created_date: date,
-        //   del_flg: false,
-        // })
-        // .then((docRef) => {
-        //     console.log("Document written with ID: ", docRef.id);
-        //     this.documentId = docRef.id
-        //     this.createdFlg = true;
-        //     this.createLoadFlg = false;
-        // })
-        // .catch((error) => {
-        //     console.error("Error adding document: ", error);
-        //     this.createLoadFlg = false;
-        // });
+      dbCollection = dbCollection
+        // .orderBy("read_count","desc")
+        // .limit(10);
+
+      // もっとみる 時
+      if(!firstFlg){
+        dbCollection = dbCollection.startAfter(this.lastVisible);
+      }
+
+      return dbCollection.get().then((querySnapshot) =>{
+          querySnapshot.forEach((doc) =>{
+              this.questions.push({
+                  documentId: doc.id,
+                  data: doc.data()
+                })
+          });
+          // Get the last visible document
+          this.lastVisible = querySnapshot.docs[querySnapshot.docs.length-1];
       });
     }
   }
