@@ -6,86 +6,58 @@
     <!-- <div class="text-center">
       <img src="~/assets/img/top_image.png" class="top"/>
     </div> -->
-
-    <h2 class="text-center mt-4 h3">
-        <i class="fas fa-newspaper awesome-blue"></i>お知らせ
-    </h2>
-    <div class="card mt-3">
-      <div class="card-body">
-        <div class="row">
-          <div class="col-md-12 h5 text-center">
-             <a href="/create?t=ブラック企業川柳">ブラック企業での悲しい体験や辛い経験を大募集！！！ </a>
-          </div>
-        </div>
-      </div>
+{{loginUser}}a
+    <div class="text-right">
+      <b-button 
+        variant="outline-primary"
+        @click="signIn">
+        <i class="fas fa-sign-in-alt awesome-blue"></i>
+      </b-button>
     </div>
-    
+    <div class="text-right">
+      <b-button 
+        variant="outline-primary"
+        @click="signOut">
+        <i class="fas fa-sign-in-alt awesome-blue"></i>
+      </b-button>
+    </div>
     <h2 class="text-center mt-5 h3">
         <i class="fas fa-crown awesome-darkgoldenrod"></i>ランキング
     </h2>
     <div 
       v-for="row in questions"
       v-bind:key="row.id"
-      class="card mt-3">
-      <div class="card-body haiku-card">
-        <div class="row no-gutters">
-          <div class="col-9 col-md-10 pl-md-4 font-weight-bold h3">
-            {{row.data.haiku1}}</div>
-          <div class="col-3  no-gutters col-md-2 text-right">
-            <a :href="'https://twitter.com/share?text=俳句メーカー。あなたの日常を俳句にして周りとシェアしましょう。&amp;hashtags=俳句メーカー,' + (row.data.tags).join(',') + '&amp;url=https://www.haiku-maker.site/m/' + row.documentId" target="_blank" rel="noopener" role="button" class="btn btn-block btn-tw p-1 p-md-2"><i class="fab fa-twitter"></i>シェア</a>
-          </div>
-        </div>
-        <div class="row no-gutters">
-          <div class="col-md-2">
-          </div>
-          <div class="col-md-10 font-weight-bold h3">
-            {{row.data.haiku2}}
-          </div>
-        </div>
-        <div class="row no-gutters">
-          <div class="col-0 col-md-4">
-          </div>
-          <div class="col-9 col-md-6 font-weight-bold h3">
-            {{row.data.haiku3}}
-          </div>
-          <div class="col-3 col-md-2 pr-2 pt-3 text-right">
-             <a :href="'/read/?d=' + row.documentId ">>>詳細</a>
-          </div>
-        </div>
-        <div 
-        v-if="row.data.tags"
-        class="row no-gutters">
-          <div class="col-9 pl-md-4">
-            <a 
-            v-if="row.data.tags[0]"
-            :href="'/ranking/?t=' + row.data.tags[0]">#{{row.data.tags[0]}}</a>
-            <a 
-            v-if="row.data.tags[1]"
-            :href="'/ranking/?t=' + row.data.tags[1]">#{{row.data.tags[1]}}</a>
-            <a 
-            v-if="row.data.tags[2]"
-            :href="'/ranking/?t=' + row.data.tags[2]">#{{row.data.tags[2]}}</a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <h2 class="text-center mt-4 h3">
-        <i class="fas fa-users awesome-yellow"></i>人気のタグ一覧
-    </h2>
-    <div class="card p-3 mt-3">
-      <div class="tag-container">
-        <a 
-          class="tag-content"
-          :href="'/ranking/?t=IT川柳'">
-          IT川柳
-        </a>
-        <a class="tag-content"
-          :href="'/ranking/?t=ブラック企業川柳'">
-          ブラック企業川柳
-        </a>
-      </div>
-    </div>
+      class="question">
     
+      <a 
+       :href="'/read?d=' + row.documentId" class="row rounded back-white mt-3 mx-1">
+        <div class="board rounded col-12 col-md-6 px-0">
+          <div class="board_inner text-center rounded no-gutters">
+              <p class="h4 pt-1 font-weight-bold p-1">
+                {{row.data.question}}
+              </p>
+          </div>
+        </div>
+        <div class="col-12 col-md-6 p-3">
+          <div class="row px-md-1">
+            <div class="col-12 text-primary font-weight-bold text-truncate">
+              <span>A: {{row.data.option1}}</span>
+            </div>
+            <div class="col-12 text-primary font-weight-bold text-truncate">
+              <span>B: {{row.data.option2}}</span>
+            </div>
+            <div class="col-12 text-secondary mt-4 text-truncate">
+              <small>作:{{row.data.user_name}}さん</small>
+            </div>
+          </div>
+        </div>
+
+
+
+
+
+      </a>
+    </div>    
   </b-container>
 </template>
 
@@ -110,6 +82,7 @@ export default {
   },
   data() {
     return {
+      loginUser: null,
       option1: '',
       option2: '',
       choiced: false,
@@ -122,9 +95,27 @@ export default {
     };
   },
   created() {
+    firebase.auth().onAuthStateChanged((user)=> {
+      if (user) {
+        this.loginUser = user;
+      } else {
+      }
+    });
       return this.getRankQestions(true);
   },
   methods: {
+    signIn() {
+      var provider = new firebase.auth.TwitterAuthProvider();
+      firebase.auth().signInWithRedirect(provider);
+    },
+    signOut(){
+      firebase.auth().signOut().then(function() {
+        // Sign-out successful.
+      console.log("signOut")
+      }).catch(function(error) {
+        // An error happened.
+      });
+    },
     pageNext() {
       this.getRankQestions(false)
     },
@@ -160,16 +151,42 @@ export default {
 </script>
 
 <style>
+.question a {
+  color: #000;
+  transition: all .3s;
+  text-decoration: none;
+}
+.question a:hover{
+  color: #000;
+  text-decoration: none;
+  transform: scale(1.1,1.1);
+}
+.back-white{
+  background-color: white;
+}
 .board {
-    background-color:#ffd31a;
-    /* background-color:#49a1eb; */
-    border:solid 3px grey;
+  background-color:#ffd31a;
+  height: 130px;
+  display: flex;
+  flex-direction: column; /* 子要素をflexboxにより縦方向に揃える */
+  justify-content: center; /* 子要素をflexboxにより中央に配置する */
+  align-items: center;  /* 子要素をflexboxにより中央に配置する */
+}
+.board_inner {
+  overflow: hidden;
+  word-break: break-all;
+}
+.user_img {
+  width: 30px;
+  height: 30px;
+}
+.border_radius{
+  border-radius: 100px;
+  -webkit-border-radius: 100px;
+  -moz-border-radius: 100px;
 }
 .border-double{
   border:double 10px dimgray;
-}
-.border-bottom{
-  /* border:solid 1px #000; */
 }
 .options {
   background-color: white;

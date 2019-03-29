@@ -1,9 +1,8 @@
 <template>
   <div>
-    
     <header>
       <div>
-        <b-navbar toggleable="sm" type="light" variant="light"  class="px-md-5 bg-white">
+        <b-navbar toggleable="sm" type="light" variant="light"  class="px-md-5 bg-white text-center">
           <b-navbar-brand href="/">
             <i class="fas fa-hand-point-up awesome-darkgoldenrod"></i>チョイス！<i class="fas fa-hand-point-up awesome-darkgoldenrod"></i>
           </b-navbar-brand>
@@ -69,8 +68,8 @@ html {
 }
 
 body {
-  /* background-color: rgb(46, 46, 46) */
-  background-color:whitesmoke;
+  /* background-color:grey !important; */
+  background-color:#f8f9fa !important;
 }
 
 *, *:before, *:after {

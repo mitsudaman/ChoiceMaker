@@ -19,3 +19,25 @@ Vue.use(VueKonva)
 
 
   plugins: [{ src: '~/plugins/konva', ssr: false }]
+
+
+
+--------------------------------------------
+■Twitter app 登録
+
+- Application description (required)
+Life is a series of choices. Get the ultimate question and inspiration for your users. To make their life better.
+
+
+- Tell us how this app will be used
+
+1. To identify the user creating the content
+
+2. We will use the image and name of the user registered on Twitter as the creator of the content of this site.
+
+
+1. I’m using Twitter’s APIs  to use [twitter login] with Firebase.
+ and To use identify the user .
+2. No I don't intend to analyze Tweets, Twitter users,or their content.
+3. No
+4. I will post user images and names registered on Twitter as content creators.

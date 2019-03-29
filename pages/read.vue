@@ -10,10 +10,9 @@
           <i class="fas fa-hand-point-left awesome-white animationBtn"></i>
         </p>
       </div>
-      <div class="col-8 col-md-10">
+      <div class="col-8 col-md-10 option">
         <p class="h2 pt-1 mt-2 text-center font-weight-bold">
           {{question.question}}
-          <!-- 目の前に列車が走っている。線路の先にはネコがいます。助けますか？ -->
         </p>
       </div>
       <div class="col-2 col-md-1 text-right">
@@ -23,11 +22,11 @@
       </div>
     </div>
     <div class="row mb-2 no-gutters justify-content-md-center">
-      <div 
+      <div
         v-bind:class="[{ choiced: choiced && isAChoiced },{ noChoiced: choiced && !isAChoiced }]"
         @click="choiceOption(1)"
         class="col-md-5 mt-md-0 border-double rounded options">
-        <div class="h3 py-3 optionA_title pb-2 font-weight-bold text-center text-white ">A</div>
+        <!-- <div class="h3 py-3 optionA_title pb-2 font-weight-bold text-center text-white ">A</div> -->
         <div 
         class="h4 p-3 my-3 text-center font-weight-bold">{{question.option1}}</div>
       </div>
@@ -38,7 +37,7 @@
         v-bind:class="[{ choiced: choiced && isBChoiced },{ noChoiced: choiced && !isBChoiced }]"
         @click="choiceOption(2)"
         class="col-md-5 mt-3 mt-md-0 border-double rounded options">
-        <div class="h3 py-3 optionB_title pb-2 font-weight-bold text-center text-white ">B</div>
+        <!-- <div class="h3 py-3 optionB_title pb-2 font-weight-bold text-center text-white ">B</div> -->
         <div class="h4 p-3 my-3 text-center font-weight-bold">{{question.option2}}</div>
       </div>
     </div>
@@ -47,7 +46,9 @@
     v-if="choiced"
     class="result"
     >
-    {{ question }}
+    <!-- {{ question }} -->
+    A:{{ question.option1_choiced_user.length }}
+    B:{{ question.option2_choiced_user.length }}
     </div>
     
   </b-container>
@@ -85,22 +86,17 @@ export default {
     };
   },
   created() {
-      var docRef = db.collection("questions").doc("0WFSI0gLuoggwavRI99v");
-      // ドキュメント取得
-      docRef.get().then(doc => {
-          if (doc.exists) {
-            this.question = doc.data();
-          } else {
-              // doc.data() will be undefined in this case
-              console.log("No such document!");
-          }
-      }).catch(function(error) {
-          console.log("Error getting document:", error);
-      });
+    firebase.auth().onAuthStateChanged((user)=> {
+      if (user) {
+        this.loginUser = user;
+      } else {
+      }
+    });
+    var docRef = db.collection("questions").doc(this.$route.query.d);
+    this.getQuestionByDocumentId(docRef)
   },
   methods: {
     choiceOption(option){
-      this.choiced = true;
       if(option == 1){
         this.isAChoiced = true;
         this.isBChoiced = false;
@@ -109,46 +105,45 @@ export default {
         this.isAChoiced = false;
         this.isBChoiced = true;
       }
-    },
-    create() {
-      var storageRef = firebase.storage().ref();
-      var createRef = storageRef.child('aaa.jpg');
-      var canvas = document.createElement('canvas')
-      var svg = this.$refs.svgArea
-      this.createLoadFlg = true;
-
-      canvas.width = svg.width.baseVal.value;
-      canvas.height = svg.height.baseVal.value;
+      var docRef = db.collection("questions").doc(this.$route.query.d);
       
-      const data = new XMLSerializer().serializeToString(this.$refs.svgArea);
-      canvg(canvas, data)
-      let image = canvas.toDataURL('image/jpeg').split(',')[1]
-      createRef.putString(image, 'base64').then((snapshot) =>{
-        console.log('Uploaded a blob or file!');
-        // var date = new Date();
-        
-        // db.collection("posts").add({
-        //   haiku1: this.haiku1,
-        //   haiku2: this.haiku2,
-        //   haiku3: this.haiku3,
-        //   name: this.name,
-        //   ogp_full_path: this.uuid,
-        //   read_count: 0,
-        //   tags: this.tags,
-        //   type: 1,
-        //   created_date: date,
-        //   del_flg: false,
-        // })
-        // .then((docRef) => {
-        //     console.log("Document written with ID: ", docRef.id);
-        //     this.documentId = docRef.id
-        //     this.createdFlg = true;
-        //     this.createLoadFlg = false;
-        // })
-        // .catch((error) => {
-        //     console.error("Error adding document: ", error);
-        //     this.createLoadFlg = false;
-        // });
+      // ドキュメント取得
+      docRef.get().then(doc => {
+        if (doc.exists) {  
+          this.updateOptionChoicedUser(docRef,option);
+        } else {
+            console.log("No such document!");
+        }
+      }).catch(function(error) {
+          console.log("Error getting document:", error);
+      });
+    },
+    updateOptionChoicedUser(docRef,option){
+      // ドキュメント更新
+      if(option==1){
+        docRef.update({
+            "option1_choiced_user": firebase.firestore.FieldValue.arrayUnion(this.loginUser.uid),
+            "option2_choiced_user": firebase.firestore.FieldValue.arrayRemove(this.loginUser.uid),
+        })
+      }else if(option==2){
+        docRef.update({
+            "option1_choiced_user": firebase.firestore.FieldValue.arrayRemove(this.loginUser.uid),
+            "option2_choiced_user": firebase.firestore.FieldValue.arrayUnion(this.loginUser.uid),
+        })
+      }
+      this.getQuestionByDocumentId(docRef)
+      this.choiced = true;
+    },
+    getQuestionByDocumentId(docRef){
+      // ドキュメント取得
+      docRef.get().then(doc => {
+          if (doc.exists) {
+            this.question = doc.data();
+          } else {
+              console.log("No such document!");
+          }
+      }).catch(function(error) {
+          console.log("Error getting document:", error);
       });
     }
   }
@@ -169,6 +164,9 @@ export default {
 }
 .options {
   background-color: white;
+}
+.options:hover {
+  transform: scale(1.1,1.1);
 }
 .optionA_title{
   background-color: grey;
