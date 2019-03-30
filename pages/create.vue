@@ -229,9 +229,6 @@ export default {
 .border-double{
   border:double 10px dimgray;
 }
-.border-bottom{
-  /* border:solid 1px #000; */
-}
 .options {
   background-color: white;
 }

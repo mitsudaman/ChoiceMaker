@@ -6,7 +6,7 @@
     <!-- <div class="text-center">
       <img src="~/assets/img/top_image.png" class="top"/>
     </div> -->
-{{loginUser}}a
+<!-- {{loginUser}}a -->
     <div class="text-right">
       <b-button 
         variant="outline-primary"

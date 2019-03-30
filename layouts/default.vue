@@ -4,7 +4,7 @@
       <div>
         <b-navbar toggleable="sm" type="light" variant="light"  class="px-md-5 bg-white text-center">
           <b-navbar-brand href="/">
-            <i class="fas fa-hand-point-up awesome-darkgoldenrod"></i>チョイス！<i class="fas fa-hand-point-up awesome-darkgoldenrod"></i>
+            <i class="fas fa-hand-point-up awesome-darkgoldenrod"></i>チョイス!
           </b-navbar-brand>
 
           <b-navbar-toggle target="nav_collapse" />
@@ -32,11 +32,11 @@
     <footer class="text-center mt-5 mt-lg-4 px-5">
       <div>
         <ul class="footer">
-          <li><a href="/">トップページ</a> ｜</li>
-          <li><a href="/new">新着</a> ｜</li>
-          <li><a href="/ranking">ランキング</a> ｜</li>
-          <li><a href="/create">俳句をつくる</a> ｜</li>
-          <li><a href="/thanks">Thanks</a></li>
+          <li><a href="/">トップ</a> ｜</li>
+          <li><a href="/term">利用規約</a> ｜</li>
+          <li><a 
+          href="https://twitter.com/mitudama" 
+          target="_blank" rel="noopener">運営</a> ｜</li>
         </ul>
       </div>
       <div>

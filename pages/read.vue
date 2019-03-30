@@ -49,6 +49,17 @@
     <!-- {{ question }} -->
     A:{{ question.option1_choiced_user.length }}
     B:{{ question.option2_choiced_user.length }}
+      <div class="row mt-5">
+        <div class="col-md-3">
+        </div>
+        <div class="col-md-6">
+          <no-ssr>
+            <chart :chart-data="datacollection" :options="options"></chart>
+          </no-ssr>
+        </div>
+        <div class="col-md-3">
+        </div>
+      </div>
     </div>
     
   </b-container>
@@ -58,6 +69,7 @@
 import firebase from 'firebase'
 import 'firebase/firestore';
 import canvg from 'canvg';
+import Chart from './Chart.js'
 var config = {
   apiKey: "AIzaSyDZU-UvrO9Ka2meAjeYzZSCt1C6gFaGnBQ",
   authDomain: "choicemaker-e052f.firebaseapp.com",
@@ -72,6 +84,7 @@ if (!firebase.apps.length) {
 var db = firebase.firestore();
 export default {
   components: {
+    Chart
   },
   data() {
     return {
@@ -131,20 +144,66 @@ export default {
             "option2_choiced_user": firebase.firestore.FieldValue.arrayUnion(this.loginUser.uid),
         })
       }
-      this.getQuestionByDocumentId(docRef)
       this.choiced = true;
+      this.getQuestionByDocumentId(docRef)
     },
     getQuestionByDocumentId(docRef){
       // ドキュメント取得
       docRef.get().then(doc => {
           if (doc.exists) {
             this.question = doc.data();
+            this.fillData();
           } else {
               console.log("No such document!");
           }
       }).catch(function(error) {
           console.log("Error getting document:", error);
       });
+    },
+    fillData () {
+      var sumCt = this.question.option1_choiced_user.length + this.question.option2_choiced_user.length;
+      var option1Rate = Math.floor(this.question.option1_choiced_user.length * (100/sumCt))
+      var option2Rate = Math.floor(this.question.option2_choiced_user.length * (100/sumCt))
+      this.datacollection = {
+        labels: ['A('+ option1Rate + '%)', 'B('+ option1Rate + '%)'],
+        datasets: [
+          {
+            data: [
+              option1Rate, 
+              option2Rate
+            ],
+            backgroundColor: [
+              '#cdd6db',
+              '#cdd6db',
+            ],
+          }
+        ]
+      }
+      this.options = {
+          responsive: true, 
+          legend: {
+            display: false
+          },
+          title: {
+              display: true,
+              text: this.question.question,
+              fontSize: 18
+          },
+          scales: {
+            xAxes: [
+              {
+                ticks: {
+                  autoSkip: false,
+                  beginAtZero: true,
+                  min: 0,
+                  max: 100,
+                  fontSize: 18,
+                  stepSize: 100           
+                }
+              }
+            ]
+          }
+      }
     }
   }
 }
@@ -158,9 +217,6 @@ export default {
 }
 .border-double{
   border:double 10px dimgray;
-}
-.border-bottom{
-  /* border:solid 1px #000; */
 }
 .options {
   background-color: white;
