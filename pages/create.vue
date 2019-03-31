@@ -30,44 +30,30 @@
                 text-anchor="middle">{{svgQuestion3.text}}</text>
                 <text 
                 x="15%" 
-                :y="svgOption1_1.y"
+                y="70%"
                 font-weight="bold"
                 font-size="8px"
                 style="fill: red"
                 >A:</text>
                 <text 
                 x="21%" 
-                :y="svgOption1_1.y"
+                y="70%"
                 font-weight="bold"
-                font-size="8px"
-                >{{svgOption1_1.text}}</text>
-                <text 
-                v-if="svgOption1_2"
-                x="21%" 
-                :y="svgOption1_2.y"
-                font-weight="bold"
-                font-size="8px"
-                >{{svgOption1_2.text}}</text>
+                :font-size="svgOption1FontSize"
+                >{{option1}}</text>
                 <text 
                 x="15%" 
-                :y="svgOption2_1.y"
+                y="85%"
                 font-weight="bold"
                 font-size="8px"
                 style="fill: blue"
                 >B:</text>
                 <text 
                 x="21%" 
-                :y="svgOption2_1.y"
+                y="85%"
                 font-weight="bold"
-                font-size="8px"
-                >{{svgOption2_1.text}}</text>
-                <text 
-                v-if="svgOption2_2"
-                x="21%" 
-                :y="svgOption2_2.y"
-                font-weight="bold"
-                font-size="8px"
-                >{{svgOption2_2.text}}</text>
+                :font-size="svgOption2FontSize"
+                >{{option2}}</text>
               </svg>
             </div>
           </div>
@@ -91,27 +77,27 @@
       <div class="row">
         <div class="col-md-6">
           <div class="form-group">
-            <label class="font-weight-bold">選択肢A (2行まで)</label>
-            <textarea  
+            <label class="font-weight-bold">選択肢A</label>
+            <input  
               v-model="option1"
-              maxlength="50" 
-              class="form-control"></textarea>
-            <p class="text-right">{{option1.length}}/50</p>
+              maxlength="20" 
+              class="form-control">
+            <p class="text-right">{{option1.length}}/20</p>
           </div>
         </div>
         <div class="col-md-6">
           <div class="form-group">
-            <label class="font-weight-bold">選択肢B (2行まで)</label>
-            <textarea  
+            <label class="font-weight-bold">選択肢B</label>
+            <input  
               v-model="option2"
-              maxlength="50" 
-              class="form-control"></textarea>
-            <p class="text-right">{{option2.length}}/50</p>
+              maxlength="20" 
+              class="form-control">
+            <p class="text-right">{{option2.length}}/20</p>
           </div>
         </div>
       </div>
     </div>
-    <div class="text-right mt-3">
+    <div class="text-right">
       <b-button 
         :disabled="createdFlg"
         @click="create()" 
@@ -121,10 +107,20 @@
         class="fas fa-pencil-alt"></i> 
         <span
           v-if="createLoadFlg"
-          class="spinner-border spinner-border-sm" 
+          class="spinner-border spinner-border-sm text-white" 
           role="status" 
           aria-hidden="true"></span>
           <span class="font-weight-bold text-white">選択をつくる</span></b-button>
+    </div>
+    <div 
+    v-if="createdFlg"
+    class="mt-4">
+      <a 
+        class="btn btn-block animationBtn btn-tw p-2" 
+        v-bind:href="'https://twitter.com/share?text=究極の選択メーカー。究極の選択を促し周りの人に刺激を与えましょう。&hashtags=究極の選択メーカー&url=https://www.choice-maker.site/m/'+ documentId"
+        target="_blank" rel="noopener"
+        role="button">
+        <i class="fab fa-twitter"></i>問いかける</a>
     </div>
   </b-container>
 </template>
@@ -133,6 +129,7 @@
 import firebase from 'firebase'
 import 'firebase/firestore';
 import canvg from 'canvg';
+import { uuid } from 'vue-uuid';
 var config = {
   apiKey: "AIzaSyDZU-UvrO9Ka2meAjeYzZSCt1C6gFaGnBQ",
   authDomain: "choicemaker-e052f.firebaseapp.com",
@@ -144,14 +141,18 @@ var config = {
 if (!firebase.apps.length) {
     firebase.initializeApp(config);
 }
+var db = firebase.firestore();
 export default {
   components: {
   },
   data() {
     return {
+      loginUser: null,
       question: '',
       option1: '',
       option2: '',
+      uuid: uuid.v1(),
+      documentId: "",
       createLoadFlg: false,
       createdFlg: false
     };
@@ -218,49 +219,27 @@ export default {
       
       return this.getQestionFontSizeByLength(maxLength)
     },
-    svgOption1_1 () { 
-      var option1Array = this.option1.split('\n')
-      var option1Row = option1Array[0]
-      var length = this.getFontLength(option1Row);
-
-      var y ="65%"
-      return { text: option1Row, y: y}
+    svgOption1FontSize(){
+      var length = this.getFontLength(this.option1);
+      return this.getOptionFontSizeByLength(length)
     },
-    svgOption1_2 () { 
-      var option1Array = this.option1.split('\n')
-      var option1Row = option1Array[1] 
-      if(!option1Row){
-        return 
-      }
-      var length = this.getFontLength(option1Row);
-
-      var y ="75%"
-      return { text: option1Row, y: y}
-    },
-    svgOption2_1 () { 
-      var option2Array = this.option2.split('\n')
-      var option2Row = option2Array[0]
-      var length = this.getFontLength(option2Row);
-
-      var y ="87.5%"
-      return { text: option2Row, y: y}
-    },
-    svgOption2_2 () { 
-      var option2Array = this.option2.split('\n')
-      var option2Row = option2Array[1] 
-      if(!option2Row){
-        return 
-      }
-      var length = this.getFontLength(option2Row);
-
-      var y ="97.5%"
-      return { text: option2Row, y: y}
+    svgOption2FontSize(){
+      var length = this.getFontLength(this.option2);
+      return this.getOptionFontSizeByLength(length)
     },
   },
   methods: {
     create() {
+      //ログイン確認
+      firebase.auth().onAuthStateChanged((user)=> {
+        if (user) {
+          this.loginUser = user;
+        } else {
+          this.$router.push('login')
+        }
+      });
       var storageRef = firebase.storage().ref();
-      var createRef = storageRef.child('aaa.jpg');
+      var createRef = storageRef.child(this.uuid + '.jpg');
       var canvas = document.createElement('canvas')
       var svg = this.$refs.svgArea
       this.createLoadFlg = true;
@@ -273,30 +252,39 @@ export default {
       let image = canvas.toDataURL('image/jpeg').split(',')[1]
       createRef.putString(image, 'base64').then((snapshot) =>{
         console.log('Uploaded a blob or file!');
-        // var date = new Date();
+        var date = new Date();
+        if(this.question.length == 0){
+          this.question = "どっちがいい？"
+        }
         
-        // db.collection("posts").add({
-        //   haiku1: this.haiku1,
-        //   haiku2: this.haiku2,
-        //   haiku3: this.haiku3,
-        //   name: this.name,
-        //   ogp_full_path: this.uuid,
-        //   read_count: 0,
-        //   tags: this.tags,
-        //   type: 1,
-        //   created_date: date,
-        //   del_flg: false,
-        // })
-        // .then((docRef) => {
-        //     console.log("Document written with ID: ", docRef.id);
-        //     this.documentId = docRef.id
-        //     this.createdFlg = true;
-        //     this.createLoadFlg = false;
-        // })
-        // .catch((error) => {
-        //     console.error("Error adding document: ", error);
-        //     this.createLoadFlg = false;
-        // });
+        db.collection("questions").add({
+          question: this.question,
+          option1: this.option1,
+          option2: this.option2,
+          option3: '',
+          option4: '',
+          option1_choiced_user: [],
+          option2_choiced_user: [],
+          option3_choiced_user: [],
+          option4_choiced_user: [],
+          photo_url: this.loginUser.photoURL,
+          user_name: this.loginUser.displayName,
+          ogp_full_path: this.uuid,
+          like_users: [],
+          type: 1,
+          created_date: date,
+          del_flg: false,
+        })
+        .then((docRef) => {
+            console.log("Document written with ID: ", docRef.id);
+            this.documentId = docRef.id
+            this.createdFlg = true;
+            this.createLoadFlg = false;
+        })
+        .catch((error) => {
+            console.error("Error adding document: ", error);
+            this.createLoadFlg = false;
+        });
       });
     },
     getFontLength(value){
@@ -378,7 +366,15 @@ export default {
         return  fontSize
       }
       return  fontSize
-    }
+    },
+    getOptionFontSizeByLength(length){
+      var fontSize = "8px";
+      if(length > 34){
+        fontSize = "7px"
+        return  fontSize
+      }
+      return  fontSize
+    },
   }
 }
 </script>

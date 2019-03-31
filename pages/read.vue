@@ -4,11 +4,15 @@
         <i class="fas fa-hand-point-up awesome-yellow"></i> 
         チョイスする
     </h1> -->
-    <b-row align-h="end" class="mb-4">
-      <b-col cols="4 text-right">
-        <i class="fas fa-thumbs-up awesome-green"></i> 0いいね</b-col>
-    </b-row>
-    <div class="row board rounded mb-4 no-gutters">
+    <!-- <div class="mb-4 text-right">
+      <div v-if="question.like_users">
+        <span class="p-2">
+          <i class="fas fa-thumbs-up awesome-green"></i> {{question.like_users.length}}
+        </span>
+      </div>
+    </div> -->
+    <div class="content-area py-4">
+    <div class="row quest-board rounded mb-4 no-gutters">
       <div class="col-2 col-md-1">
         <p class="h2 p-1 pl-3 mt-2">
           <i class="fas fa-hand-point-left awesome-white animationBtn"></i>
@@ -26,50 +30,76 @@
       </div>
     </div>
     <div class="row mb-2 no-gutters justify-content-md-center">
-      <div
-        v-bind:class="[{ choiced: choiced && isAChoiced },{ noChoiced: choiced && !isAChoiced }]"
-        @click="choiceOption(1)"
-        class="col-md-5 mt-md-0 border-double rounded options">
-        <div class="h3 py-3 optionA_title pb-2 font-weight-bold text-center text-white ">A</div>
-        <div 
-        class="h4 p-3 my-3 text-center font-weight-bold">
-        {{question.option1}}
+      <div 
+      v-bind:class="[{ choiced: choiced && isAChoiced },{ noChoiced: choiced && !isAChoiced }]"
+      class="col-md-5 mt-md-0">
+        <div class="h1 py-2 pb-2 optionA_title font-weight-bold text-center">A</div>
+        <div
+          @click="choiceOption(1)"
+          class="border-double rounded options">
+          <div 
+          class="h4 p-3 my-3 text-center font-weight-bold">
+          {{question.option1}}
+          </div>
         </div>
       </div>
       <div 
       v-bind:class= "{ noChoiced: choiced }"
       class="col-md-1"></div>
       <div 
-        v-bind:class="[{ choiced: choiced && isBChoiced },{ noChoiced: choiced && !isBChoiced }]"
-        @click="choiceOption(2)"
-        class="col-md-5 mt-3 mt-md-0 border-double rounded options">
-        <div class="h3 py-3 optionB_title pb-2 font-weight-bold text-center text-white ">B</div>
-        <div class="h4 p-3 my-3 text-center font-weight-bold">
+          v-bind:class="[{ choiced: choiced && isBChoiced },{ noChoiced: choiced && !isBChoiced }]"
+          class="col-md-5 mt-md-0">
+        <div class="h1 py-2 pb-2 optionB_title font-weight-bold text-center">B</div>
+        <div
+          @click="choiceOption(2)"
+          class="border-double rounded options">
+          <div 
+          class="h4 p-3 my-3 text-center font-weight-bold">
           {{question.option2}}
+          </div>
         </div>
       </div>
     </div>
 
     <div 
     v-if="choiced"
-    class="result"
+    class="result mt-5"
     >
-    <!-- {{ question }} -->
-    A:{{ question.option1_choiced_user.length }}
-    B:{{ question.option2_choiced_user.length }}
-      <div class="row mt-5">
-        <div class="col-md-3">
+      <h2 class="text-center">集計結果 ({{optionSum}}票)</h2>      
+      <div class="row mb-2 no-gutters justify-content-md-center">
+        <div class="col-md-5 mt-md-0">
+          <div class="h1 py-2 pb-2 optionA_title font-weight-bold text-center">A</div>
+          <div class="border-double rounded options">
+            <div 
+            class="h4 p-3 my-3 text-center font-weight-bold">
+            {{question.option1}}
+            </div>
+          </div>
+          <div class="h1 py-2 pb-2 optionA_title font-weight-bold text-center">{{option1Rate}}%</div>
         </div>
-        <div class="col-md-6">
-          <no-ssr>
-            <chart :chart-data="datacollection" :options="options"></chart>
-          </no-ssr>
+        <div class="col-md-1"></div>
+        <div class="col-md-5 mt-md-0">
+          <div class="h1 py-2 pb-2 optionB_title font-weight-bold text-center">B</div>
+          <div class="border-double rounded options">
+            <div 
+            class="h4 p-3 my-3 text-center font-weight-bold">
+            {{question.option2}}
+            </div>
+          </div>
+          <div class="h1 py-2 pb-2 optionB_title font-weight-bold text-center">{{option2Rate}}%</div>
         </div>
-        <div class="col-md-3">
-        </div>
+      </div>
+      <div class="mt-4">
+        <a 
+          class="btn btn-block btn-tw p-2" 
+          v-bind:href="'https://twitter.com/share?text=究極の選択メーカー。究極の選択を促し周りの人に刺激を与えましょう。&hashtags=究極の選択メーカー&url=https://www.choice-maker.site/m/'+ this.$route.query.d"
+          target="_blank" rel="noopener"
+          role="button">
+          <i class="fab fa-twitter"></i>問いかける</a>
       </div>
     </div>
     
+    </div>
   </b-container>
 </template>
 
@@ -77,7 +107,6 @@
 import firebase from 'firebase'
 import 'firebase/firestore';
 import canvg from 'canvg';
-import Chart from './Chart.js'
 var config = {
   apiKey: "AIzaSyDZU-UvrO9Ka2meAjeYzZSCt1C6gFaGnBQ",
   authDomain: "choicemaker-e052f.firebaseapp.com",
@@ -92,7 +121,6 @@ if (!firebase.apps.length) {
 var db = firebase.firestore();
 export default {
   components: {
-    Chart
   },
   data() {
     return {
@@ -115,6 +143,17 @@ export default {
     });
     var docRef = db.collection("questions").doc(this.$route.query.d);
     this.getQuestionByDocumentId(docRef)
+  },
+  computed: {
+    option1Rate(){
+      return Math.floor(this.question.option1_choiced_user.length/(this.question.option1_choiced_user.length + this.question.option2_choiced_user.length)*100)
+    },
+    option2Rate(){
+      return Math.floor(this.question.option2_choiced_user.length/(this.question.option1_choiced_user.length + this.question.option2_choiced_user.length)*100)
+    },
+    optionSum(){
+      return this.question.option1_choiced_user.length + this.question.option2_choiced_user.length
+    },
   },
   methods: {
     choiceOption(option){
@@ -160,7 +199,7 @@ export default {
       docRef.get().then(doc => {
           if (doc.exists) {
             this.question = doc.data();
-            this.fillData();
+            // this.fillData();
           } else {
               console.log("No such document!");
           }
@@ -168,59 +207,20 @@ export default {
           console.log("Error getting document:", error);
       });
     },
-    fillData () {
-      var sumCt = this.question.option1_choiced_user.length + this.question.option2_choiced_user.length;
-      var option1Rate = Math.floor(this.question.option1_choiced_user.length * (100/sumCt))
-      var option2Rate = Math.floor(this.question.option2_choiced_user.length * (100/sumCt))
-      this.datacollection = {
-        labels: ['A('+ option1Rate + '%)', 'B('+ option2Rate + '%)'],
-        datasets: [
-          {
-            data: [
-              option1Rate, 
-              option2Rate
-            ],
-            backgroundColor: [
-              '#cdd6db',
-              '#cdd6db',
-            ],
-          }
-        ]
-      }
-      this.options = {
-          responsive: true, 
-          legend: {
-            display: false
-          },
-          title: {
-              display: true,
-              text: this.question.question,
-              fontSize: 18
-          },
-          scales: {
-            xAxes: [
-              {
-                ticks: {
-                  autoSkip: false,
-                  beginAtZero: true,
-                  min: 0,
-                  max: 100,
-                  fontSize: 18,
-                  stepSize: 100           
-                }
-              }
-            ]
-          }
-      }
-    }
   }
 }
 </script>
 
 <style>
-.board {
+.content-area{
+  background-color:white;
+  border: 1px solid #a7a7aa;
+  border-radius: 2px;
+  box-sizing: border-box;
+  padding: 8px 16px;
+}
+.quest-board {
     background-color:#ffd31a;
-    /* background-color:#49a1eb; */
     border:solid 3px grey;
 }
 .border-double{
@@ -233,12 +233,14 @@ export default {
   transform: scale(1.1,1.1);
 }
 .optionA_title{
-  background-color:silver;
-  border-bottom:solid 2px dimgray;
+  color: red;
+  /* background-color:silver; */
+  /* border-bottom:solid 2px dimgray; */
 }
 .optionB_title{
-  background-color: silver;
-  border-bottom:solid 2px dimgray;
+  color: blue;
+  /* background-color: silver; */
+  /* border-bottom:solid 2px dimgray; */
 }
 
 .choiced {

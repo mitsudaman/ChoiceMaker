@@ -1,18 +1,18 @@
 <template>
   <b-container class="px-md-5 mt-5">
-    <!-- <h1 class="text-center mt-3 h2">
-        <i class="fas fa-hand-point-up awesome-yellow"></i> チョイス！
-    </h1> -->
-    <h2 class="text-center mt-5 h3">
+    <h1 class="text-center mt-3 h2">
+        <i class="fas fa-hand-point-up awesome-yellow"></i> 究極の選択メーカー
+    </h1>
+    <!-- <h2 class="text-center mt-5 h3">
         <i class="fas fa-crown awesome-darkgoldenrod"></i>ランキング
-    </h2>
+    </h2> -->
     <div 
       v-for="row in questions"
       v-bind:key="row.id"
-      class="question">
+      class="question ">
     
       <a 
-       :href="'/read?d=' + row.documentId" class="row rounded back-white mt-3 mx-1">
+       :href="'/read?d=' + row.documentId" class="row rounded back-white mt-4 mx-1">
         <div class="board rounded col-12 col-md-6 px-0">
           <div class="board_inner text-center rounded no-gutters">
               <p class="h4 pt-1 font-weight-bold p-1">
@@ -28,16 +28,14 @@
             <div class="col-12 text-primary font-weight-bold text-truncate">
               <span>B: {{row.data.option2}}</span>
             </div>
-            <div class="col-12 text-secondary mt-4 text-truncate">
+            <div class="col-12 text-secondary text-truncate">
+              <small>回答数: {{row.data.option1_choiced_user.length + row.data.option2_choiced_user.length}} </small>
+            </div>
+            <div class="col-12 text-secondary text-truncate">
               <small>作:{{row.data.user_name}}さん</small>
             </div>
           </div>
         </div>
-
-
-
-
-
       </a>
     </div>    
   </b-container>

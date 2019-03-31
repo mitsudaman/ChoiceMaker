@@ -3,17 +3,17 @@ module.exports = {
   ** Headers of the page
   */
   head: {
-    title: '二者択一メーカー',
+    title: '究極の選択メーカー',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'Nuxt.js project' },
-      { property: 'og:title', content: '二者択一メーカー' },
+      { hid: 'description', name: 'description', content: '究極の選択メーカー。究極の選択を促し周りの人に刺激を与えましょう' },
+      { property: 'og:title', content: '究極の選択メーカー' },
       { property: 'og:type', content: 'website' },
-      { property: 'og:description', content: '二者択一メーカー。二者択一メーカー。あなたの日常を二者択一にして周りとシェアしましょう。' },
-      { property: 'og:url', content: 'https://www.haiku-maker.site/' },
-      { property: 'og:site_name', content: '二者択一メーカー' },
-      { property: 'og:image', content: 'https://www.haiku-maker.site/ogp.jpg' },
+      { property: 'og:description', content: '究極の選択メーカー。究極の選択を促し周りの人に刺激を与えましょう。' },
+      { property: 'og:url', content: 'https://www.choice-maker.site/' },
+      { property: 'og:site_name', content: '究極の選択メーカー' },
+      { property: 'og:image', content: 'https://www.choice-maker.site/ogp.jpg' },
       { name: 'twitter:site', content: '@mitudama' },
       { name: 'twitter:card', content: 'summary_large_image' },
     ],
@@ -49,7 +49,6 @@ module.exports = {
   css: [
     '@fortawesome/fontawesome-free/css/all.css',
   ],
-  plugins: [{ src: '~/plugins/vuehtml2canvas', ssr: false }],
   modules: [
     'bootstrap-vue/nuxt',
     // '@nuxtjs/pwa',

@@ -53,3 +53,25 @@ Life is a series of choices. Get the ultimate question and inspiration for your 
                 // 'rgba(75, 192, 192, 0.2)',
                 // 'rgba(153, 102, 255, 0.2)',
                 // 'rgba(255, 159, 64, 0.2)'
+
+
+                created_date
+2019年3月26日 0:00:00 UTC+9
+del_flg
+true
+option1
+"毎月20万円もらえる（一生）"
+option2
+"その場で1億円もらえる"
+option3
+"a"
+option4
+"a"
+photo_url
+"https://pbs.twimg.com/profile_images/823908950760226816/cFThd_SR.jpg"
+question
+"どっちがいい？"
+type
+1
+user_name
+"ミツダマ@500円プログラマー"

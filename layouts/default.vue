@@ -4,7 +4,7 @@
       <div>
         <b-navbar toggleable="sm" type="light" variant="light"  class="px-md-5 bg-white text-center">
           <b-navbar-brand href="/">
-            <i class="fas fa-hand-point-up awesome-darkgoldenrod"></i>チョイス!
+            <i class="fas fa-hand-point-up awesome-darkgoldenrod"></i>究極の選択メーカー
           </b-navbar-brand>
 
           <b-navbar-toggle target="nav_collapse" />
@@ -34,7 +34,7 @@
         </b-navbar>
       </div>
     </header>
-    <nuxt/>
+    <nuxt />
     <footer class="text-center mt-5 mt-lg-4 px-5">
       <div>
         <ul class="footer">
@@ -143,10 +143,6 @@ body {
   border-radius: 0.25rem;
 }
 
-.btn-haiku-create {
-  color: white;
-  background-color: green
-}
 .btn-tw {
   color: white;
   background-color: #00aced;
