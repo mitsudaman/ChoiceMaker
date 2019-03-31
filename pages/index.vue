@@ -1,26 +1,8 @@
 <template>
   <b-container class="px-md-5 mt-5">
-    <h1 class="text-center mt-3 h2">
-        <i class="fas fa-paint-brush awesome-green"></i> 究極の選択メーカー
-    </h1>
-    <!-- <div class="text-center">
-      <img src="~/assets/img/top_image.png" class="top"/>
-    </div> -->
-<!-- {{loginUser}}a -->
-    <div class="text-right">
-      <b-button 
-        variant="outline-primary"
-        @click="signIn">
-        <i class="fas fa-sign-in-alt awesome-blue"></i>
-      </b-button>
-    </div>
-    <div class="text-right">
-      <b-button 
-        variant="outline-primary"
-        @click="signOut">
-        <i class="fas fa-sign-in-alt awesome-blue"></i>
-      </b-button>
-    </div>
+    <!-- <h1 class="text-center mt-3 h2">
+        <i class="fas fa-hand-point-up awesome-yellow"></i> チョイス！
+    </h1> -->
     <h2 class="text-center mt-5 h3">
         <i class="fas fa-crown awesome-darkgoldenrod"></i>ランキング
     </h2>

@@ -11,8 +11,8 @@
 
           <b-collapse is-nav id="nav_collapse">
             <b-navbar-nav class=" text-right">
-              <b-nav-item href="/new" class="mx-md-1">
-                <i class="fas fa-star awesome-blue"></i> 新着
+              <b-nav-item href="/" class="mx-md-1">
+                <i class="fas fa-star awesome-blue"></i> トップ
               </b-nav-item>
               <b-nav-item href="#" class="mx-md-1">
                 <i class="fas fa-trophy awesome-orange"></i> コンテスト(準備中)
@@ -22,6 +22,12 @@
               </b-nav-item>
               <b-nav-item href="/create" class="mx-md-1">
                 <i class="fas fa-pencil-alt awesome-green"></i> 選択をつくる
+              </b-nav-item>
+              <b-nav-item v-if="!loginFlg" href="/login" class="mx-md-1">
+                <span class="login-link p-1"><i class="fas fa-sign-in-alt awesome-blue"></i> ログイン</span>
+              </b-nav-item>
+              <b-nav-item v-if="loginFlg" @click="signOut" class="mx-md-1">
+                <span class="login-link p-1"><i class="fas fa-sign-in-alt awesome-blue"></i> ログアウト</span>
               </b-nav-item>
             </b-navbar-nav>
           </b-collapse>
@@ -55,6 +61,56 @@
   </div>
 </template>
 
+
+<script>
+import firebase from 'firebase'
+import 'firebase/firestore';
+import canvg from 'canvg';
+var config = {
+  apiKey: "AIzaSyDZU-UvrO9Ka2meAjeYzZSCt1C6gFaGnBQ",
+  authDomain: "choicemaker-e052f.firebaseapp.com",
+  databaseURL: "https://choicemaker-e052f.firebaseio.com",
+  projectId: "choicemaker-e052f",
+  storageBucket: "choicemaker-e052f.appspot.com",
+  messagingSenderId: "341375191781"
+};
+if (!firebase.apps.length) {
+    firebase.initializeApp(config);
+}
+var db = firebase.firestore();
+export default {
+  components: {
+  },
+  data() {
+    return {
+      loginUser: null,
+      loginFlg: false
+    };
+  },
+  created() {
+    firebase.auth().onAuthStateChanged((user)=> {
+      if (user) {
+        this.loginUser = user;
+        this.loginFlg = true;
+      } else {
+        this.$router.push('login')
+      }
+    });
+  },
+  methods: {
+    signOut(){
+      firebase.auth().signOut().then(function() {
+        // Sign-out successful.
+      console.log("signOut")
+      }).catch(function(error) {
+        // An error happened.
+      });
+    },
+  }
+}
+</script>
+
+
 <style>
 html {
   font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -79,6 +135,12 @@ body {
 
 .container {
   max-width: 800px;
+}
+.login-link{
+  border: 1px solid transparent;
+  color: #007bff;
+  border-color: #007bff;
+  border-radius: 0.25rem;
 }
 
 .btn-haiku-create {

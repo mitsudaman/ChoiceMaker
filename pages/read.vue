@@ -1,5 +1,9 @@
 <template>
   <b-container class="px-md-5 mt-5">
+    <!-- <h1 class="text-center mt-3 h2">
+        <i class="fas fa-hand-point-up awesome-yellow"></i> 
+        チョイスする
+    </h1> -->
     <b-row align-h="end" class="mb-4">
       <b-col cols="4 text-right">
         <i class="fas fa-thumbs-up awesome-green"></i> 0いいね</b-col>
@@ -26,9 +30,11 @@
         v-bind:class="[{ choiced: choiced && isAChoiced },{ noChoiced: choiced && !isAChoiced }]"
         @click="choiceOption(1)"
         class="col-md-5 mt-md-0 border-double rounded options">
-        <!-- <div class="h3 py-3 optionA_title pb-2 font-weight-bold text-center text-white ">A</div> -->
+        <div class="h3 py-3 optionA_title pb-2 font-weight-bold text-center text-white ">A</div>
         <div 
-        class="h4 p-3 my-3 text-center font-weight-bold">{{question.option1}}</div>
+        class="h4 p-3 my-3 text-center font-weight-bold">
+        {{question.option1}}
+        </div>
       </div>
       <div 
       v-bind:class= "{ noChoiced: choiced }"
@@ -37,8 +43,10 @@
         v-bind:class="[{ choiced: choiced && isBChoiced },{ noChoiced: choiced && !isBChoiced }]"
         @click="choiceOption(2)"
         class="col-md-5 mt-3 mt-md-0 border-double rounded options">
-        <!-- <div class="h3 py-3 optionB_title pb-2 font-weight-bold text-center text-white ">B</div> -->
-        <div class="h4 p-3 my-3 text-center font-weight-bold">{{question.option2}}</div>
+        <div class="h3 py-3 optionB_title pb-2 font-weight-bold text-center text-white ">B</div>
+        <div class="h4 p-3 my-3 text-center font-weight-bold">
+          {{question.option2}}
+        </div>
       </div>
     </div>
 
@@ -165,7 +173,7 @@ export default {
       var option1Rate = Math.floor(this.question.option1_choiced_user.length * (100/sumCt))
       var option2Rate = Math.floor(this.question.option2_choiced_user.length * (100/sumCt))
       this.datacollection = {
-        labels: ['A('+ option1Rate + '%)', 'B('+ option1Rate + '%)'],
+        labels: ['A('+ option1Rate + '%)', 'B('+ option2Rate + '%)'],
         datasets: [
           {
             data: [
@@ -225,11 +233,11 @@ export default {
   transform: scale(1.1,1.1);
 }
 .optionA_title{
-  background-color: grey;
+  background-color:silver;
   border-bottom:solid 2px dimgray;
 }
 .optionB_title{
-  background-color: grey;
+  background-color: silver;
   border-bottom:solid 2px dimgray;
 }
 

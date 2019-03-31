@@ -4,84 +4,118 @@
       <div class="col-md-12">
         <div class="row no-gutters  rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
           <div class="col d-flex flex-column position-static">
-
-
-
-
-
-            <canvas id="SimpleCanvas" width="640" height="480" style="background-color:#FFFFFF;"></canvas>
-
-
-
-
-            <!-- <div>
+            <div>
               <svg ref="svgArea" viewBox="0 0 200 100">
-                <rect x="2.5" y="2.5" width="90" height="95" fill="#fff" stroke="#12b886" stroke-width="5"></rect>
-                <rect x="107.5" y="2.5" width="90" height="95" fill="#fff" stroke="#cccccc" stroke-width="5"></rect>
+                <rect x="0" y="0" width="200" height="100" fill="#ffd31a"></rect>
                 <text 
-                x="25%" 
-                y="50%"
-                font-size="8px"
-                text-anchor="middle">
-                {{option1}}</text>
+                x="50%" 
+                :y="svgQuestion1.y" 
+                font-weight="bold"
+                :font-size="svgQuestionFontSize"
+                text-anchor="middle">{{svgQuestion1.text}}</text>
+                {{svgQuestion2}}
                 <text 
-                x="75%" 
-                y="50%" 
-                writing-mode="tb"
-                glyph-orientation-vertical="0"
+                v-if="svgQuestion2"
+                x="50%" 
+                :y="svgQuestion2.y" 
+                font-weight="bold"
+                :font-size="svgQuestionFontSize"
+                text-anchor="middle">{{svgQuestion2.text}}</text>
+                <text 
+                v-if="svgQuestion3"
+                x="50%" 
+                :y="svgQuestion3.y" 
+                font-weight="bold"
+                :font-size="svgQuestionFontSize"
+                text-anchor="middle">{{svgQuestion3.text}}</text>
+                <text 
+                x="15%" 
+                :y="svgOption1_1.y"
+                font-weight="bold"
                 font-size="8px"
-                text-anchor="middle">{{option2}}</text>
+                style="fill: red"
+                >A:</text>
+                <text 
+                x="21%" 
+                :y="svgOption1_1.y"
+                font-weight="bold"
+                font-size="8px"
+                >{{svgOption1_1.text}}</text>
+                <text 
+                v-if="svgOption1_2"
+                x="21%" 
+                :y="svgOption1_2.y"
+                font-weight="bold"
+                font-size="8px"
+                >{{svgOption1_2.text}}</text>
+                <text 
+                x="15%" 
+                :y="svgOption2_1.y"
+                font-weight="bold"
+                font-size="8px"
+                style="fill: blue"
+                >B:</text>
+                <text 
+                x="21%" 
+                :y="svgOption2_1.y"
+                font-weight="bold"
+                font-size="8px"
+                >{{svgOption2_1.text}}</text>
+                <text 
+                v-if="svgOption2_2"
+                x="21%" 
+                :y="svgOption2_2.y"
+                font-weight="bold"
+                font-size="8px"
+                >{{svgOption2_2.text}}</text>
               </svg>
-            </div> -->
+            </div>
           </div>
         </div>
       </div>
     </div>
     <div class="mt-4">
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-12">
           <div class="form-group">
-            <label class="font-weight-bold">回答1</label>
+            <label class="font-weight-bold">質問 (3行まで)</label>
             <textarea  
-              v-model="option1"
+              v-model="question"
+              rows="3" 
+              maxlength="50" 
               class="form-control"></textarea>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="form-group">
-            <label class="font-weight-bold">回答2</label>
-            <textarea  
-              v-model="option2"
-              v-on:change="onCreateCanvas"
-              class="form-control"></textarea>
+            <p class="text-right">{{question.length}}/50</p>
           </div>
         </div>
       </div>
-      <!-- <div class="row">
-        <div class="col-md-8">
+      <div class="row">
+        <div class="col-md-6">
           <div class="form-group">
-            <label class="font-weight-bold">タグ</label>
-            <span> ※3つまで</span>
-            <input-tag
-            v-model="tags"
-            :limit=3></input-tag> 
+            <label class="font-weight-bold">選択肢A (2行まで)</label>
+            <textarea  
+              v-model="option1"
+              maxlength="50" 
+              class="form-control"></textarea>
+            <p class="text-right">{{option1.length}}/50</p>
           </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-6">
           <div class="form-group">
-            <label class="font-weight-bold">名前</label>
-            <input  
-              v-model="name"
-              class="form-control">
+            <label class="font-weight-bold">選択肢B (2行まで)</label>
+            <textarea  
+              v-model="option2"
+              maxlength="50" 
+              class="form-control"></textarea>
+            <p class="text-right">{{option2.length}}/50</p>
           </div>
         </div>
-      </div> -->
+      </div>
     </div>
     <div class="text-right mt-3">
       <b-button 
         :disabled="createdFlg"
         @click="create()" 
-        class="btn-haiku-create">
+        variant="warning">
         <i 
         v-if="!createLoadFlg"
         class="fas fa-pencil-alt"></i> 
@@ -89,43 +123,8 @@
           v-if="createLoadFlg"
           class="spinner-border spinner-border-sm" 
           role="status" 
-          aria-hidden="true"></span>俳句つくる</b-button>
-    </div>
-
-
-
-    <div class="row board rounded my-4 no-gutters">
-      <div class="col-2 col-md-1">
-        <p class="h2 p-1 pl-3 mt-2">
-          <i class="fas fa-hand-point-left awesome-white animationBtn"></i>
-        </p>
-      </div>
-      <div class="col-8 col-md-10">
-        <p class="h2 pt-1 mt-2 text-center font-weight-bold">
-          どっちがいい？
-          <!-- 目の前に列車が走っている。線路の先にはネコがいます。助けますか？ -->
-        </p>
-      </div>
-      <div class="col-2 col-md-1 text-right">
-        <p class="h2 p-1 mr-3 mt-2">
-          <i class="fas fa-hand-point-right awesome-white animationBtn"></i>
-        </p>
-      </div>
-    </div>
-    <div class="row mb-2 no-gutters justify-content-md-center">
-      <div 
-        class="col-md-5 mt-md-0 border-double rounded options">
-        <div class="h3 py-3 optionA_title pb-2 font-weight-bold text-center text-white ">A</div>
-        <div 
-        class="h4 p-3 my-3 text-center font-weight-bold">毎月20万円もらえる（一生）ああああああああああああああああああああああああ</div>
-      </div>
-      <div 
-      class="col-md-1"></div>
-      <div 
-        class="col-md-5 mt-3 mt-md-0 border-double rounded options">
-        <div class="h3 py-3 optionB_title pb-2 font-weight-bold text-center text-white ">B</div>
-        <div class="h4 p-3 my-3 text-center font-weight-bold">その場で1億円もらえる</div>
-      </div>
+          aria-hidden="true"></span>
+          <span class="font-weight-bold text-white">選択をつくる</span></b-button>
     </div>
   </b-container>
 </template>
@@ -150,30 +149,115 @@ export default {
   },
   data() {
     return {
-      option1: '毎月20万円もらえる（一生）ああああああああああああああああああああああああ',
-      option2: 'その場で1億円もらえる',
+      question: '',
+      option1: '',
+      option2: '',
       createLoadFlg: false,
       createdFlg: false
     };
   },
-  methods: {
-    onCreateCanvas(){
-      console.log('aaaaaaaaaa')
-        // var ctx = document.getElementById("SimpleCanvas").getContext("2d");
+  computed: {
+    svgQuestion1 () { 
+      var questionArray = this.question.split('\n')
+      var questionRow = questionArray[0]
+      questionRow = questionRow.length == 0? "どっちがいい？" : questionRow
+      var length = this.getFontLength(questionRow);
 
-        // var txt ="JavaScript"; //描画する文字
-
-        // ctx.font = "italic 40px Arial"; //フォントにArial,40px,斜体を指定
-        // ctx.fillStyle = "green"; //塗り潰し色を緑に
-
-        // ctx.fillText(txt,10,50);      //テキストを塗り潰しで描画
-        // ctx.fillText(txt,10,100,100); //テキストの最大幅を100pxに指定
-
-        // ctx.strokeStyle = "blue"; //輪郭線の色を青に
-
-        // ctx.strokeText(txt,10,150);     //テキスト輪郭を描画
-        // ctx.strokeText(txt,10,200,100); //テキストの最大幅を100pxに指定
+      var y ="40%"
+      if(questionArray.length == 2){
+        y = "35%"
+      }
+      if(questionArray.length >= 3){
+        y = "20%"
+      }
+      return { text: questionRow, y: y}
     },
+    svgQuestion2 () { 
+      var questionArray = this.question.split('\n')
+      var questionRow = questionArray[1]
+      if(!questionRow){
+        return 
+      }
+      var y ="50%"
+      if(questionArray.length >= 3){
+        y = "35%"
+      }
+      return { text: questionRow, y: y}
+    },
+    svgQuestion3 () { 
+      var questionArray = this.question.split('\n')
+      var questionRow = questionArray[2]
+      if(!questionRow){
+        return 
+      }
+      var y ="50%"
+      return { text: questionRow, y: y}
+    },
+    svgQuestionFontSize(){
+      var questionArray = this.question.split('\n')
+      var questionRow = questionArray[0]
+      var maxLength = this.getFontLength(questionRow);
+      
+
+      var questionRow2 = questionArray[1]
+      if(questionRow2){
+        var length = this.getFontLength(questionRow2)
+        maxLength = maxLength > length ? maxLength : length
+      }
+      var questionRow3 = questionArray[2]
+      if(questionRow3){
+        var length = this.getFontLength(questionRow3)
+        maxLength = maxLength > length ? maxLength : length
+      }
+      // var questionRow1 = questionArray[0]
+      // var length1 = this.getFontLength(questionRow1);
+      // var questionRow2 = questionArray[1]
+      // var length2 = this.getFontLength(questionRow2);
+      // var questionRow3 = questionArray[3]
+      // var length3 = this.getFontLength(questionRow3);
+      
+      return this.getQestionFontSizeByLength(maxLength)
+    },
+    svgOption1_1 () { 
+      var option1Array = this.option1.split('\n')
+      var option1Row = option1Array[0]
+      var length = this.getFontLength(option1Row);
+
+      var y ="65%"
+      return { text: option1Row, y: y}
+    },
+    svgOption1_2 () { 
+      var option1Array = this.option1.split('\n')
+      var option1Row = option1Array[1] 
+      if(!option1Row){
+        return 
+      }
+      var length = this.getFontLength(option1Row);
+
+      var y ="75%"
+      return { text: option1Row, y: y}
+    },
+    svgOption2_1 () { 
+      var option2Array = this.option2.split('\n')
+      var option2Row = option2Array[0]
+      var length = this.getFontLength(option2Row);
+
+      var y ="87.5%"
+      return { text: option2Row, y: y}
+    },
+    svgOption2_2 () { 
+      var option2Array = this.option2.split('\n')
+      var option2Row = option2Array[1] 
+      if(!option2Row){
+        return 
+      }
+      var length = this.getFontLength(option2Row);
+
+      var y ="97.5%"
+      return { text: option2Row, y: y}
+    },
+  },
+  methods: {
     create() {
       var storageRef = firebase.storage().ref();
       var createRef = storageRef.child('aaa.jpg');
@@ -214,6 +298,86 @@ export default {
         //     this.createLoadFlg = false;
         // });
       });
+    },
+    getFontLength(value){
+      var length = 0;
+      for (var i = 0; i < value.length; i++) {
+        var c = value.charCodeAt(i);
+        if ((c >= 0x0 && c < 0x81) || (c === 0xf8f0) || (c >= 0xff61 && c < 0xffa0) || (c >= 0xf8f1 && c < 0xf8f4)) {
+          length += 1;
+        } else {
+          length += 2;
+        }
+      }
+      return length
+    },
+    getQestionFontSizeByLength(length){
+      var fontSize = "20px";
+      if(length > 85){
+        fontSize = "3px"
+        return  fontSize
+      }
+      if(length > 75){
+        fontSize = "4px"
+        return  fontSize
+      }
+      if(length > 60){
+        fontSize = "5px"
+        return  fontSize
+      }
+      if(length > 51){
+        fontSize = "6px"
+        return  fontSize
+      }
+      if(length > 45){
+        fontSize = "7px"
+        return  fontSize
+      }
+      if(length > 40){
+        fontSize = "8px"
+        return  fontSize
+      }
+      if(length > 35){
+        fontSize = "9px"
+        return  fontSize
+      }
+      if(length > 33){
+        fontSize = "10px"
+        return  fontSize
+      }
+      if(length > 30){
+        fontSize = "11px"
+        return  fontSize
+      }
+      if(length > 27){
+        fontSize = "12px"
+        return  fontSize
+      }
+      if(length > 25){
+        fontSize = "13px"
+        return  fontSize
+      }
+      if(length > 24){
+        fontSize = "14px"
+        return  fontSize
+      }
+      if(length > 21){
+        fontSize = "15px"
+        return  fontSize
+      }
+      if(length > 20){
+        fontSize = "16px"
+        return  fontSize
+      }
+      if(length > 18){
+        fontSize = "17px"
+        return  fontSize
+      }
+      if(length > 15){
+        fontSize = "18px"
+        return  fontSize
+      }
+      return  fontSize
     }
   }
 }
