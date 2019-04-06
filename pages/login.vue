@@ -3,7 +3,8 @@
     <div class="card">
       <div class="card-body">
         <!-- <h2>ログイン</h2> -->
-        ボタンをクリックするとTwitterログイン画面に移動します
+        ボタンをクリックするとTwitterログイン画面に移動します<br>
+        <span class="font-weight-bold">※ログイン後数秒お待ちください</span>(トップページへリダイレクトされます)
         <div 
         class="mt-3">
           <b-button 
@@ -18,7 +19,7 @@
     </div> 
     <div class="card mt-4">
       <div class="card-body">
-        チョイスは質問を作成した方の情報を識別するためにTwitterアカウントの連携を必要としています。
+        究極の選択メーカーは質問を作成した方の情報を識別するためにTwitterアカウントの連携を必要としています。
         <ul>
           <li>連携許可をログイン以外の目的で使用することはありません。</li>
           <li>あなたのアカウントからツイートすることはありません。</li>

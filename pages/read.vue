@@ -4,27 +4,37 @@
         <i class="fas fa-hand-point-up awesome-yellow"></i> 
         チョイスする
     </h1> -->
-    <!-- <div class="mb-4 text-right">
-      <div v-if="question.like_users">
-        <span class="p-2">
-          <i class="fas fa-thumbs-up awesome-green"></i> {{question.like_users.length}}
-        </span>
+    <div class="mb-4 text-right">
+      <div>
+        <button 
+          v-if="!likedFlg"
+          class="btn like-btn"
+          @click="addLikeUsr()">
+            <i class="fa fa-fw fa-thumbs-up"></i> 
+        </button>
+        <button 
+          v-if="likedFlg"
+          class="btn like-btn"
+          @click="delLikeUsr()">
+            <i class="fa fa-fw fa-check"></i> 
+        </button>
+        <span class="font-weight-bold like-count">{{likeSum}}</span>
       </div>
-    </div> -->
+    </div>
     <div class="content-area py-4">
     <div class="row quest-board rounded mb-4 no-gutters">
       <div class="col-2 col-md-1">
-        <p class="h2 p-1 pl-3 mt-2">
+        <p class="h3 p-1 pl-3 mt-2">
           <i class="fas fa-hand-point-left awesome-white animationBtn"></i>
         </p>
       </div>
       <div class="col-8 col-md-10 option">
-        <p class="h2 pt-1 mt-2 text-center font-weight-bold">
+        <p class="h3 pt-1 mt-2 text-center font-weight-bold">
           {{question.question}}
         </p>
       </div>
       <div class="col-2 col-md-1 text-right">
-        <p class="h2 p-1 mr-3 mt-2">
+        <p class="h3 p-1 mr-3 mt-2">
           <i class="fas fa-hand-point-right awesome-white animationBtn"></i>
         </p>
       </div>
@@ -124,6 +134,8 @@ export default {
   },
   data() {
     return {
+      likeSum: 0,
+      likedFlg: false,
       option1: '',
       option2: '',
       choiced: false,
@@ -139,6 +151,7 @@ export default {
       if (user) {
         this.loginUser = user;
       } else {
+        this.$router.push('login')
       }
     });
     var docRef = db.collection("questions").doc(this.$route.query.d);
@@ -154,8 +167,30 @@ export default {
     optionSum(){
       return this.question.option1_choiced_user.length + this.question.option2_choiced_user.length
     },
+    // isLiked(){
+    //   if(this.question.like_users){
+    //     return this.question.like_users.includes(this.loginUser.uid)
+    //   }
+    //   return false
+    // },
   },
   methods: {
+    addLikeUsr(){
+      var docRef = db.collection("questions").doc(this.$route.query.d);
+      docRef.update({
+            "like_users": firebase.firestore.FieldValue.arrayUnion(this.loginUser.uid),
+        })
+      this.likeSum ++ 
+      this.likedFlg = true
+    },
+    delLikeUsr(){
+      var docRef = db.collection("questions").doc(this.$route.query.d);
+      docRef.update({
+            "like_users": firebase.firestore.FieldValue.arrayRemove(this.loginUser.uid),
+        })
+      this.likeSum --
+      this.likedFlg = false
+    },
     choiceOption(option){
       if(option == 1){
         this.isAChoiced = true;
@@ -199,7 +234,8 @@ export default {
       docRef.get().then(doc => {
           if (doc.exists) {
             this.question = doc.data();
-            // this.fillData();
+            this.likeSum = this.question.like_users.length
+            this.likedFlg = this.question.like_users.includes(this.loginUser.uid)
           } else {
               console.log("No such document!");
           }
@@ -212,6 +248,17 @@ export default {
 </script>
 
 <style>
+.like-btn{
+  font-size: 20px;
+  color: #55c500;
+  background-color: #fff;
+  border: 2px solid #55c500;
+  border-radius: 90%;
+  outline: none;
+}
+.like-count{
+  color: #55c500;
+}
 .content-area{
   background-color:white;
   border: 1px solid #a7a7aa;

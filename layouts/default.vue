@@ -14,13 +14,13 @@
               <b-nav-item href="/" class="mx-md-1">
                 <i class="fas fa-star awesome-blue"></i> トップ
               </b-nav-item>
-              <b-nav-item href="#" class="mx-md-1">
+              <!-- <b-nav-item href="#" class="mx-md-1">
                 <i class="fas fa-trophy awesome-orange"></i> コンテスト(準備中)
+              </b-nav-item> -->
+              <b-nav-item v-if="loginFlg" href="/ranking" class="mx-md-1">
+                <i class="fas fa-crown awesome-darkgoldenrod"></i> ランキング(準備中)
               </b-nav-item>
-              <b-nav-item href="/ranking" class="mx-md-1">
-                <i class="fas fa-crown awesome-darkgoldenrod"></i> ランキング
-              </b-nav-item>
-              <b-nav-item href="/create" class="mx-md-1">
+              <b-nav-item v-if="loginFlg" href="/create" class="mx-md-1">
                 <i class="fas fa-pencil-alt awesome-green"></i> 選択をつくる
               </b-nav-item>
               <b-nav-item v-if="!loginFlg" href="/login" class="mx-md-1">
@@ -42,7 +42,7 @@
           <li><a href="/term">利用規約</a> ｜</li>
           <li><a 
           href="https://twitter.com/mitudama" 
-          target="_blank" rel="noopener">運営</a> ｜</li>
+          target="_blank" rel="noopener">運営</a></li>
         </ul>
       </div>
       <div>
@@ -93,7 +93,7 @@ export default {
         this.loginUser = user;
         this.loginFlg = true;
       } else {
-        this.$router.push('login')
+        // this.$router.push('login')
       }
     });
   },
@@ -101,7 +101,7 @@ export default {
     signOut(){
       firebase.auth().signOut().then(function() {
         // Sign-out successful.
-      console.log("signOut")
+        console.log("signOut")
       }).catch(function(error) {
         // An error happened.
       });

@@ -52,9 +52,9 @@ module.exports = {
   modules: [
     'bootstrap-vue/nuxt',
     // '@nuxtjs/pwa',
-    // ['@nuxtjs/google-analytics', {
-    //   id: ''
-    // }]
+    ['@nuxtjs/google-analytics', {
+      id: 'UA-117897189-3'
+    }]
   ],
 }
 

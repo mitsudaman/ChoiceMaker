@@ -157,6 +157,16 @@ export default {
       createdFlg: false
     };
   },
+  created() {
+    firebase.auth().onAuthStateChanged((user)=> {
+      if (user) {
+        this.loginUser = user;
+        this.loginFlg = true;
+      } else {
+        this.$router.push('login')
+      }
+    });
+  },
   computed: {
     svgQuestion1 () { 
       var questionArray = this.question.split('\n')

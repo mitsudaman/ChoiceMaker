@@ -171,14 +171,6 @@ export default {
 .options {
   background-color: white;
 }
-.optionA_title{
-  background-color: grey;
-  border-bottom:solid 2px dimgray;
-}
-.optionB_title{
-  background-color: grey;
-  border-bottom:solid 2px dimgray;
-}
 
 .choiced {
   animation: animScale 4s infinite ease-out;
