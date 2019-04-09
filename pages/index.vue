@@ -1,11 +1,15 @@
 <template>
   <b-container class="px-md-5 mt-5">
-    <h1 class="text-center mt-3 h2">
+    <!-- <h1 class="text-center mt-3 h2">
         <i class="fas fa-hand-point-up awesome-yellow"></i> 究極の選択メーカー
-    </h1>
-    <!-- <h2 class="text-center mt-5 h3">
-        <i class="fas fa-crown awesome-darkgoldenrod"></i>ランキング
-    </h2> -->
+    </h1> -->
+
+    <div class="text-center">
+      <img src="~/assets/img/top.png" class="top"/>
+    </div>
+    <h2 class="text-center mt-5 h3">
+        <i class="fas fa-crown awesome-darkgoldenrod"></i>新着の選択
+    </h2>
     <div 
       v-for="row in questions"
       v-bind:key="row.id"
@@ -88,14 +92,6 @@ export default {
       var provider = new firebase.auth.TwitterAuthProvider();
       firebase.auth().signInWithRedirect(provider);
     },
-    signOut(){
-      firebase.auth().signOut().then(function() {
-        // Sign-out successful.
-      console.log("signOut")
-      }).catch(function(error) {
-        // An error happened.
-      });
-    },
     pageNext() {
       this.getRankQestions(false)
     },
@@ -107,7 +103,7 @@ export default {
       }
 
       dbCollection = dbCollection
-        // .orderBy("read_count","desc")
+        .orderBy("created_date","desc")
         // .limit(10);
 
       // もっとみる 時
@@ -131,6 +127,11 @@ export default {
 </script>
 
 <style>
+
+img.top {
+width: 100%;
+height: 100%;
+}
 .question a {
   color: #000;
   transition: all .3s;

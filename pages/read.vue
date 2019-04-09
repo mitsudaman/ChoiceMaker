@@ -22,93 +22,92 @@
       </div>
     </div>
     <div class="content-area py-4">
-    <div class="row quest-board rounded mb-4 no-gutters">
-      <div class="col-2 col-md-1">
-        <p class="h3 p-1 pl-3 mt-2">
-          <i class="fas fa-hand-point-left awesome-white animationBtn"></i>
-        </p>
-      </div>
-      <div class="col-8 col-md-10 option">
-        <p class="h3 pt-1 mt-2 text-center font-weight-bold">
-          {{question.question}}
-        </p>
-      </div>
-      <div class="col-2 col-md-1 text-right">
-        <p class="h3 p-1 mr-3 mt-2">
-          <i class="fas fa-hand-point-right awesome-white animationBtn"></i>
-        </p>
-      </div>
-    </div>
-    <div class="row mb-2 no-gutters justify-content-md-center">
-      <div 
-      v-bind:class="[{ choiced: choiced && isAChoiced },{ noChoiced: choiced && !isAChoiced }]"
-      class="col-md-5 mt-md-0">
-        <div class="h1 py-2 pb-2 optionA_title font-weight-bold text-center">A</div>
-        <div
-          @click="choiceOption(1)"
-          class="border-double rounded options">
-          <div 
-          class="h4 p-3 my-3 text-center font-weight-bold">
-          {{question.option1}}
-          </div>
+      <div class="row quest-board rounded mb-4 no-gutters">
+        <div class="col-2 col-md-1">
+          <p class="h3 p-1 pl-3 mt-2">
+            <i class="fas fa-hand-point-left awesome-white animationBtn"></i>
+          </p>
+        </div>
+        <div class="col-8 col-md-10 option">
+          <p class="h3 pt-1 mt-2 text-center font-weight-bold">
+            {{question.question}}
+          </p>
+        </div>
+        <div class="col-2 col-md-1 text-right">
+          <p class="h3 p-1 mr-3 mt-2">
+            <i class="fas fa-hand-point-right awesome-white animationBtn"></i>
+          </p>
         </div>
       </div>
-      <div 
-      v-bind:class= "{ noChoiced: choiced }"
-      class="col-md-1"></div>
-      <div 
-          v-bind:class="[{ choiced: choiced && isBChoiced },{ noChoiced: choiced && !isBChoiced }]"
-          class="col-md-5 mt-md-0">
-        <div class="h1 py-2 pb-2 optionB_title font-weight-bold text-center">B</div>
-        <div
-          @click="choiceOption(2)"
-          class="border-double rounded options">
-          <div 
-          class="h4 p-3 my-3 text-center font-weight-bold">
-          {{question.option2}}
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div 
-    v-if="choiced"
-    class="result mt-5"
-    >
-      <h2 class="text-center">集計結果 ({{optionSum}}票)</h2>      
       <div class="row mb-2 no-gutters justify-content-md-center">
-        <div class="col-md-5 mt-md-0">
+        <div 
+        v-bind:class="[{ choiced: choiced && isAChoiced },{ noChoiced: choiced && !isAChoiced }]"
+        class="col-md-5 mt-md-0">
           <div class="h1 py-2 pb-2 optionA_title font-weight-bold text-center">A</div>
-          <div class="border-double rounded options">
+          <div
+            @click="choiceOption(1)"
+            class="border-double rounded options">
             <div 
             class="h4 p-3 my-3 text-center font-weight-bold">
             {{question.option1}}
             </div>
           </div>
-          <div class="h1 py-2 pb-2 optionA_title font-weight-bold text-center">{{option1Rate}}%</div>
         </div>
-        <div class="col-md-1"></div>
-        <div class="col-md-5 mt-md-0">
+        <div 
+        v-bind:class= "{ noChoiced: choiced }"
+        class="col-md-1"></div>
+        <div 
+            v-bind:class="[{ choiced: choiced && isBChoiced },{ noChoiced: choiced && !isBChoiced }]"
+            class="col-md-5 mt-md-0">
           <div class="h1 py-2 pb-2 optionB_title font-weight-bold text-center">B</div>
-          <div class="border-double rounded options">
+          <div
+            @click="choiceOption(2)"
+            class="border-double rounded options">
             <div 
             class="h4 p-3 my-3 text-center font-weight-bold">
             {{question.option2}}
             </div>
           </div>
-          <div class="h1 py-2 pb-2 optionB_title font-weight-bold text-center">{{option2Rate}}%</div>
         </div>
       </div>
-      <div class="mt-4">
-        <a 
-          class="btn btn-block btn-tw p-2" 
-          v-bind:href="'https://twitter.com/share?text=究極の選択メーカー。究極の選択を促し周りの人に刺激を与えましょう。&hashtags=究極の選択メーカー&url=https://www.choice-maker.site/m/'+ this.$route.query.d"
-          target="_blank" rel="noopener"
-          role="button">
-          <i class="fab fa-twitter"></i>問いかける</a>
+
+      <div 
+      v-if="choiced"
+      class="result mt-5"
+      >
+        <h2 class="text-center">集計結果 ({{optionSum}}票)</h2>      
+        <div class="row mb-2 no-gutters justify-content-md-center">
+          <div class="col-md-5 mt-md-0">
+            <div class="h1 py-2 pb-2 optionA_title font-weight-bold text-center">A</div>
+            <div class="border-double rounded options">
+              <div 
+              class="h4 p-3 my-3 text-center font-weight-bold">
+              {{question.option1}}
+              </div>
+            </div>
+            <div class="h1 py-2 pb-2 optionA_title font-weight-bold text-center">{{option1Rate}}%</div>
+          </div>
+          <div class="col-md-1"></div>
+          <div class="col-md-5 mt-md-0">
+            <div class="h1 py-2 pb-2 optionB_title font-weight-bold text-center">B</div>
+            <div class="border-double rounded options">
+              <div 
+              class="h4 p-3 my-3 text-center font-weight-bold">
+              {{question.option2}}
+              </div>
+            </div>
+            <div class="h1 py-2 pb-2 optionB_title font-weight-bold text-center">{{option2Rate}}%</div>
+          </div>
+        </div>
+        <div class="mt-4">
+          <a 
+            class="btn btn-block btn-tw p-2" 
+            v-bind:href="'https://twitter.com/share?text=究極の選択メーカー。究極の選択を促し周りの人に刺激を与えましょう。&hashtags=究極の選択メーカー&url=https://www.choice-maker.site/m/'+ this.$route.query.d"
+            target="_blank" rel="noopener"
+            role="button">
+            <i class="fab fa-twitter"></i>問いかける</a>
+        </div>
       </div>
-    </div>
-    
     </div>
   </b-container>
 </template>
@@ -151,7 +150,8 @@ export default {
       if (user) {
         this.loginUser = user;
       } else {
-        this.$router.push('login')
+        // this.$router.push('login')
+        location.href = "https://www.choice-maker.site/login";
       }
     });
     var docRef = db.collection("questions").doc(this.$route.query.d);
@@ -207,10 +207,10 @@ export default {
         if (doc.exists) {  
           this.updateOptionChoicedUser(docRef,option);
         } else {
-            console.log("No such document!");
+            // console.log("No such document!");
         }
       }).catch(function(error) {
-          console.log("Error getting document:", error);
+          // console.log("Error getting document:", error);
       });
     },
     updateOptionChoicedUser(docRef,option){
@@ -237,10 +237,10 @@ export default {
             this.likeSum = this.question.like_users.length
             this.likedFlg = this.question.like_users.includes(this.loginUser.uid)
           } else {
-              console.log("No such document!");
+              // console.log("No such document!");
           }
       }).catch(function(error) {
-          console.log("Error getting document:", error);
+          // console.log("Error getting document:", error);
       });
     },
   }
@@ -258,13 +258,6 @@ export default {
 }
 .like-count{
   color: #55c500;
-}
-.content-area{
-  background-color:white;
-  border: 1px solid #a7a7aa;
-  border-radius: 2px;
-  box-sizing: border-box;
-  padding: 8px 16px;
 }
 .quest-board {
     background-color:#ffd31a;

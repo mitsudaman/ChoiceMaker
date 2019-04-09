@@ -21,7 +21,7 @@ exports.m = functions.https.onRequest((req, res) => {
         }
       })
       .catch(err => {
-        console.log('Error getting document', err);
+        // console.log('Error getting document', err);
       });
 });
 const createHtml = (ogp_full_path,doc_id) => {

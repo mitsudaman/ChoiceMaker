@@ -1,116 +1,124 @@
 <template>
   <b-container class="px-md-5 mt-5">
-    <div class="row mb-2">
-      <div class="col-md-12">
-        <div class="row no-gutters  rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-          <div class="col d-flex flex-column position-static">
-            <div>
-              <svg ref="svgArea" viewBox="0 0 200 100">
-                <rect x="0" y="0" width="200" height="100" fill="#ffd31a"></rect>
-                <text 
-                x="50%" 
-                :y="svgQuestion1.y" 
-                font-weight="bold"
-                :font-size="svgQuestionFontSize"
-                text-anchor="middle">{{svgQuestion1.text}}</text>
-                {{svgQuestion2}}
-                <text 
-                v-if="svgQuestion2"
-                x="50%" 
-                :y="svgQuestion2.y" 
-                font-weight="bold"
-                :font-size="svgQuestionFontSize"
-                text-anchor="middle">{{svgQuestion2.text}}</text>
-                <text 
-                v-if="svgQuestion3"
-                x="50%" 
-                :y="svgQuestion3.y" 
-                font-weight="bold"
-                :font-size="svgQuestionFontSize"
-                text-anchor="middle">{{svgQuestion3.text}}</text>
-                <text 
-                x="15%" 
-                y="70%"
-                font-weight="bold"
-                font-size="8px"
-                style="fill: red"
-                >A:</text>
-                <text 
-                x="21%" 
-                y="70%"
-                font-weight="bold"
-                :font-size="svgOption1FontSize"
-                >{{option1}}</text>
-                <text 
-                x="15%" 
-                y="85%"
-                font-weight="bold"
-                font-size="8px"
-                style="fill: blue"
-                >B:</text>
-                <text 
-                x="21%" 
-                y="85%"
-                font-weight="bold"
-                :font-size="svgOption2FontSize"
-                >{{option2}}</text>
-              </svg>
+    <no-ssr>
+      <canvas 
+        style="display:none"
+        id="test" 
+        visible="false"></canvas>
+    </no-ssr>
+    <div class="content-area py-4">
+      <div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label class="font-weight-bold">質問 (3行まで)</label>
+              <textarea  
+                v-model="question"
+                rows="3" 
+                maxlength="50" 
+                class="form-control"></textarea>
+              <p class="text-right">{{question.length}}/50</p>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="font-weight-bold">選択肢A</label>
+              <input  
+                v-model="option1"
+                maxlength="20" 
+                class="form-control">
+              <p class="text-right">{{option1.length}}/20</p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="font-weight-bold">選択肢B</label>
+              <input  
+                v-model="option2"
+                maxlength="20" 
+                class="form-control">
+              <p class="text-right">{{option2.length}}/20</p>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="mt-4">
-      <div class="row">
+      <div class="row my-4">
         <div class="col-md-12">
-          <div class="form-group">
-            <label class="font-weight-bold">質問 (3行まで)</label>
-            <textarea  
-              v-model="question"
-              rows="3" 
-              maxlength="50" 
-              class="form-control"></textarea>
-            <p class="text-right">{{question.length}}/50</p>
+          <div class="row no-gutters  rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+            <div class="col d-flex flex-column position-static">
+              <div>
+                <svg ref="svgArea" viewBox="0 0 200 100">
+                  <rect x="0" y="0" width="200" height="100" fill="#ffd31a"></rect>
+                  <text 
+                  x="50%" 
+                  :y="svgQuestion1.y" 
+                  font-weight="bold"
+                  :font-size="svgQuestionFontSize"
+                  text-anchor="middle">{{svgQuestion1.text}}</text>
+                  {{svgQuestion2}}
+                  <text 
+                  v-if="svgQuestion2"
+                  x="50%" 
+                  :y="svgQuestion2.y" 
+                  font-weight="bold"
+                  :font-size="svgQuestionFontSize"
+                  text-anchor="middle">{{svgQuestion2.text}}</text>
+                  <text 
+                  v-if="svgQuestion3"
+                  x="50%" 
+                  :y="svgQuestion3.y" 
+                  font-weight="bold"
+                  :font-size="svgQuestionFontSize"
+                  text-anchor="middle">{{svgQuestion3.text}}</text>
+                  <text 
+                  x="15%" 
+                  y="70%"
+                  font-weight="bold"
+                  font-size="8px"
+                  style="fill: red"
+                  >A:</text>
+                  <text 
+                  x="21%" 
+                  y="70%"
+                  font-weight="bold"
+                  :font-size="svgOption1FontSize"
+                  >{{option1}}</text>
+                  <text 
+                  x="15%" 
+                  y="85%"
+                  font-weight="bold"
+                  font-size="8px"
+                  style="fill: blue"
+                  >B:</text>
+                  <text 
+                  x="21%" 
+                  y="85%"
+                  font-weight="bold"
+                  :font-size="svgOption2FontSize"
+                  >{{option2}}</text>
+                </svg>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="form-group">
-            <label class="font-weight-bold">選択肢A</label>
-            <input  
-              v-model="option1"
-              maxlength="20" 
-              class="form-control">
-            <p class="text-right">{{option1.length}}/20</p>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="form-group">
-            <label class="font-weight-bold">選択肢B</label>
-            <input  
-              v-model="option2"
-              maxlength="20" 
-              class="form-control">
-            <p class="text-right">{{option2.length}}/20</p>
-          </div>
-        </div>
+      <div class="text-right">
+        <b-button 
+          :disabled="createdFlg"
+          @click="create()" 
+          variant="warning">
+          <i 
+          v-if="!createLoadFlg"
+          class="fas fa-pencil-alt"></i> 
+          <span
+            v-if="createLoadFlg"
+            class="spinner-border spinner-border-sm text-white" 
+            role="status" 
+            aria-hidden="true"></span>
+            <span class="font-weight-bold text-white">選択をつくる</span></b-button>
       </div>
-    </div>
-    <div class="text-right">
-      <b-button 
-        :disabled="createdFlg"
-        @click="create()" 
-        variant="warning">
-        <i 
-        v-if="!createLoadFlg"
-        class="fas fa-pencil-alt"></i> 
-        <span
-          v-if="createLoadFlg"
-          class="spinner-border spinner-border-sm text-white" 
-          role="status" 
-          aria-hidden="true"></span>
-          <span class="font-weight-bold text-white">選択をつくる</span></b-button>
     </div>
     <div 
     v-if="createdFlg"
@@ -250,7 +258,8 @@ export default {
       });
       var storageRef = firebase.storage().ref();
       var createRef = storageRef.child(this.uuid + '.jpg');
-      var canvas = document.createElement('canvas')
+      // var canvas = document.createElement('canvas')
+      var canvas = document.getElementById("test")
       var svg = this.$refs.svgArea
       this.createLoadFlg = true;
 
@@ -260,8 +269,9 @@ export default {
       const data = new XMLSerializer().serializeToString(this.$refs.svgArea);
       canvg(canvas, data)
       let image = canvas.toDataURL('image/jpeg').split(',')[1]
+
       createRef.putString(image, 'base64').then((snapshot) =>{
-        console.log('Uploaded a blob or file!');
+        // console.log('Uploaded a blob or file!');
         var date = new Date();
         if(this.question.length == 0){
           this.question = "どっちがいい？"
@@ -286,7 +296,7 @@ export default {
           del_flg: false,
         })
         .then((docRef) => {
-            console.log("Document written with ID: ", docRef.id);
+            // console.log("Document written with ID: ", docRef.id);
             this.documentId = docRef.id
             this.createdFlg = true;
             this.createLoadFlg = false;
@@ -391,49 +401,5 @@ export default {
 
 <style>
 
-.board {
-    background-color:#ffd31a;
-    /* background-color:#49a1eb; */
-    border:solid 3px grey;
-}
-.border-double{
-  border:double 10px dimgray;
-}
-.options {
-  background-color: white;
-}
-.optionA_title{
-  background-color: grey;
-  border-bottom:solid 2px dimgray;
-}
-.optionB_title{
-  background-color: grey;
-  border-bottom:solid 2px dimgray;
-}
-
-.choiced {
-  animation: animScale 4s infinite ease-out;
-  transform-origin: 50% 50%;
-  animation-play-state:running;
-}
-.noChoiced {
-  display: none;
-}
-.animationBtn {
-  animation: animScale 4s infinite ease-out;
-  transform-origin: 50% 50%;
-  animation-play-state:running;
-}
-@keyframes animScale {
-  0% { transform: scale(0.8, 0.8); }
-  10% { transform: scale(1.1, 1.1); }
-  20% { transform: scale(1, 1); }
-  30% { transform: scale(1.1, 1.1); }
-  40% { transform: scale(1, 1); }
-  50% { transform: scale(1.1, 1.1); }
-  60% { transform: scale(1, 1); }
-  70% { transform: scale(1.1, 1.1); }
-  80% { transform: scale(1, 1); }
-}
 </style>
 

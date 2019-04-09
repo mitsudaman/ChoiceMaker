@@ -17,7 +17,7 @@
               <!-- <b-nav-item href="#" class="mx-md-1">
                 <i class="fas fa-trophy awesome-orange"></i> コンテスト(準備中)
               </b-nav-item> -->
-              <b-nav-item v-if="loginFlg" href="/ranking" class="mx-md-1">
+              <b-nav-item v-if="loginFlg" href="#" class="mx-md-1">
                 <i class="fas fa-crown awesome-darkgoldenrod"></i> ランキング(準備中)
               </b-nav-item>
               <b-nav-item v-if="loginFlg" href="/create" class="mx-md-1">
@@ -99,12 +99,15 @@ export default {
   },
   methods: {
     signOut(){
+        // this.$router.push('login')
       firebase.auth().signOut().then(function() {
         // Sign-out successful.
-        console.log("signOut")
+        // console.log("signOut")
       }).catch(function(error) {
         // An error happened.
       });
+        // this.$router.push('login')
+        location.href = "https://www.choice-maker.site/login";
     },
   }
 }
@@ -143,6 +146,13 @@ body {
   border-radius: 0.25rem;
 }
 
+.content-area{
+  background-color:white;
+  border: 1px solid #a7a7aa;
+  border-radius: 5px;
+  box-sizing: border-box;
+  padding: 8px 16px;
+}
 .btn-tw {
   color: white;
   background-color: #00aced;
